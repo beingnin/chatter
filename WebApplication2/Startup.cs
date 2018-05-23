@@ -2,13 +2,17 @@
 using Owin;
 using System.Web.Optimization;
 using System.Web.Routing;
-using Microsoft.AspNet.SignalR;
-
+using WebApplication2.Models;
 [assembly: OwinStartupAttribute(typeof(WebApplication2.Startup))]
 namespace WebApplication2
 {
-    public partial class Startup {
-        public void Configuration(IAppBuilder app) {
+    public partial class Startup
+    {
+
+        public void Configuration(IAppBuilder app)
+        {
+            new Data().Initialise();
+
             ConfigureAuth(app);
             app.MapSignalR();
             BundleConfig.RegisterBundles(BundleTable.Bundles);
