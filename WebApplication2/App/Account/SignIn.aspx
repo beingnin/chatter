@@ -37,7 +37,7 @@
                     </span>
 
                     <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
-                        <input class="input100" type="text" name="email" placeholder="Email" />
+                        <asp:TextBox runat="server" ID="txtEmailSI" placeholder="Email" class="input100" />
                         <span class="focus-input100"></span>
                         <span class="symbol-input100">
                             <i class="fa fa-envelope" aria-hidden="true"></i>
@@ -45,7 +45,8 @@
                     </div>
 
                     <div class="wrap-input100 validate-input" data-validate="Password is required">
-                        <input class="input100" type="password" name="pass" placeholder="Password" />
+                        <%--<input class="input100" type="password" name="pass" placeholder="Password" />--%>
+                        <asp:TextBox runat="server" ID="txtPasswordSI" placeholder="Password" class="input100" />
                         <span class="focus-input100"></span>
                         <span class="symbol-input100">
                             <i class="fa fa-lock" aria-hidden="true"></i>
@@ -53,9 +54,7 @@
                     </div>
 
                     <div class="container-login100-form-btn">
-                        <button type="button" id="btnLogin" class="login100-form-btn">
-                            Login
-                        </button>
+                        <asp:Button ID="btnLogin" CssClass="login100-form-btn" runat="server" Text="Login" OnClick="btnLogin_Click" />
                     </div>
 
                     <div class="text-center p-t-12">
@@ -74,27 +73,27 @@
 
 
                 <%--//Register--%>
-                <div id="frmRegister" style="display: none" runat="server" class="login100-form validate-form">
+                <div id="frmRegister" style="display: none" runat="server" class="login100-form ">
                     <span class="login100-form-title">Create Account
                     </span>
 
-                    <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
-                        <input class="input100" type="text" name="email" placeholder="Email" />
+                    <div class="wrap-input100" data-validate="Valid email is required: ex@abc.xyz">
+                        <input class="input100" type="text" id="txtEmailSu" name="email" placeholder="Email" />
                         <span class="focus-input100"></span>
                         <span class="symbol-input100">
                             <i class="fa fa-envelope" aria-hidden="true"></i>
                         </span>
                     </div>
 
-                    <div class="wrap-input100 validate-input" data-validate="Password is required">
-                        <input class="input100" type="password" name="pass" placeholder="Password" />
+                    <div class="wrap-input100" data-validate="Password is required">
+                        <input class="input100" type="password" id="txtPassword1SU" name="pass" placeholder="Password" />
                         <span class="focus-input100"></span>
                         <span class="symbol-input100">
                             <i class="fa fa-lock" aria-hidden="true"></i>
                         </span>
                     </div>
-                    <div class="wrap-input100 validate-input" data-validate="Password is required">
-                        <input class="input100" type="password" name="pass" placeholder="Confirm Password" />
+                    <div class="wrap-input100" data-validate="Password is required">
+                        <input class="input100" type="password" id="txtPassword2SU" name="pass" placeholder="Confirm Password" />
                         <span class="focus-input100"></span>
                         <span class="symbol-input100">
                             <i class="fa fa-lock" aria-hidden="true"></i>
@@ -103,7 +102,7 @@
 
                     <div class="container-login100-form-btn">
                         <button type="button" id="btnRegister" class="login100-form-btn">
-                            Register
+                           <i class="fa fa-user-circle"></i>&nbsp;Register
                         </button>
                     </div>
 
@@ -157,6 +156,33 @@
 
         $('#btnRegister').click(function () {
             
+            var user = {};
+            user.Email = $('#txtEmailSu').val();
+            user.Password = $('#txtPassword2SU').val();
+            user.FirstName = 'Nithin';
+            $.ajax({
+                url: '/api/account/register',
+                method: 'POST',
+                dataType: 'JSON',
+                data:JSON.stringify(user),
+                contentType: 'application/json;charset=utf-8',
+                beforeSend:function(){
+                    $('#btnRegister').children('i').removeClass('fa-user-circle').addClass('fa-spinner fa-spin');
+                },
+                complete: function () {
+                    $('#btnRegister').children('i').removeClass('fa-spinner fa-spin').addClass('fa-user-circle');
+                },
+                success: function (data) {
+                    console.log(data);
+                    if (data.Success) {
+                        alert('Success');
+                    } else {
+                        alert('Failed');
+                    }
+
+                }
+
+            });
         });
 
     </script>

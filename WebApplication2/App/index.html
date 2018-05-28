@@ -14,7 +14,7 @@
     
   </head>
 
-  <body>
+  <body style="background:#232020">
 
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
 
@@ -156,7 +156,27 @@
         <script src="Theme/js/index.js"></script>
 
     
-    
+  <script>
+      $(document).ready(function () {
+          $('#searchfield').keyup(function (e) {
+              e.preventDefault();
+              var email=$(this).val();
+              if (e.which == 13 || e.keyCode == 13) {
+                  $.ajax({
+                      url: '/api/account/get?email=' + email,
+                      dataType: 'JSON',
+                      method: 'GET',
+                      success: function (data) {
+                          console.log(data);
+                      },
+                      error: function (xhr) {
+                          console.log(xhr);
+                      }
+                  });
+              }
+          });
+      });
+  </script>  
     
   </body>
 </html>

@@ -16,7 +16,9 @@ namespace WebApplication2
             ConfigureAuth(app);
             app.MapSignalR();
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+
         }
     }
 }

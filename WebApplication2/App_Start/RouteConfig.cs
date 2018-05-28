@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Web;
 using System.Web.Routing;
+using System.Web.Http;
 using Microsoft.AspNet.FriendlyUrls;
 
 namespace WebApplication2
@@ -13,6 +14,12 @@ namespace WebApplication2
             var settings = new FriendlyUrlSettings();
             settings.AutoRedirectMode = RedirectMode.Permanent;
             routes.EnableFriendlyUrls(settings);
+            routes.MapHttpRoute(
+    name: "DefaultApi",
+    routeTemplate: "api/{controller}/{action}/{id}",
+    defaults: new { id = System.Web.Http.RouteParameter.Optional }
+    );
+
         }
     }
 }
