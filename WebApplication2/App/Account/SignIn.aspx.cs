@@ -30,7 +30,12 @@ namespace WebApplication2.App.Account
                 FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1, user.Email, DateTime.UtcNow, DateTime.UtcNow.AddYears(1), true, user.ChatterId.ToString());
 
                 HttpCookie authCookie = new HttpCookie("ch_us_dt", FormsAuthentication.Encrypt(ticket));
+                HttpCookie idCookie = new HttpCookie("ch_us_id")
+                {
+                    Value = user.ChatterId.ToString()
+                };
                 Response.Cookies.Add(authCookie);
+                Response.Cookies.Add(idCookie);
                 FormsAuthentication.RedirectFromLoginPage(user.Email, true);
             }
             else

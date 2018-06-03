@@ -139,7 +139,7 @@
                     </div>
 
                     <div id="sendmessage">
-                        <input autocomplete="off" type="text" value="Send message..." />
+                        <input id="message" autocomplete="off" type="text" value="Send message..." />
                         <button type="button" id="send"></button>
                     </div>
 
@@ -149,10 +149,23 @@
         </div>
     </form>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="../Scripts/Cookies/jquery.cookie.js"></script>
     <script>
         $(document).ready(function () {
 
-            RefreshChatList(1);
+            RefreshChatList($.cookie('ch_us_id'));
+
+            $("#sendmessage input").focus(function () {
+                if ($(this).val() == "Send message...") {
+                    $(this).val("");
+                }
+            });
+            $("#sendmessage input").focusout(function () {
+                if ($(this).val() == "") {
+                    $(this).val("Send message...");
+
+                }
+            });
 
             $("#searchfield").focus(function () {
                 if ($(this).val() == "Search contacts...") {
@@ -177,7 +190,7 @@
                             console.log(data);
                             if (data.Success) {
                                 if (data.Data != null) {
-                                    var me = 1;
+                                    var me = $.cookie('ch_us_id');
                                     var you = data.Data.ChatterId;
                                     showChat(data.Data.Name, data.Data.Email, you, me);
 
@@ -193,14 +206,50 @@
 
 
             //chat list click
-            $('.friend').click(function () {
+            $('body').on('click', '.friend', function () {
 
                 var name = $(this).find("p strong").html();
                 var desc = $(this).find("p span").html();
-                showChat(name, desc);
+                var me = Number($.cookie('ch_us_id'));
+                var you = Number($(this).attr('data-chatter-id'));
+                showChat(name, desc, you, me);
+            });
+
+            //Send Button
+
+            $('#send').click(function () {
+                var message = $('#message').val();
+                if (message == '') {
+                    return;
+                }
+                var you = Number($('#chat-messages').attr('data-you-id'));
+                var me = Number($.cookie('ch_us_id'));
+                Send(you, me, message);
             });
 
 
+            function Send(you, me, message) {
+                var message = { FromId: me, ToId: you, Message: message };
+                console.log(message);
+                $.ajax({
+                    url: '/api/messenger/send',
+                    contentType: 'application/json;charset=utf-8',
+                    dataType:'JSON',
+                    method: 'POST',
+                    data: JSON.stringify(message),
+                    success: function (data) {
+                        console.log(data);
+                        if (data.Success) {
+                            var html = '<div class="message"><img src="Theme/Images/Defaults/profile_default.jpg" /><div class="bubble">' + message.Message + '<div class="corner"></div><span>3 min</span></div></div>';
+                            $('#chat-messages').append(html)
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+
+                });
+            }
 
             //show chat function
             function showChat(name, desc, you, me) {
@@ -216,7 +265,7 @@
                                 for (var i = 0; i < chats.Data.length; i++) {
                                     var chat = chats.Data[i];
                                     if (chat.FromId == me) {
-                                        html += '<div class="message"><img src="Theme/Images/Defaults/profile_default.jpg" /><div class="bubble">' + chat.Message + '!<div class="corner"></div><span>3 min</span></div></div>';
+                                        html += '<div class="message"><img src="Theme/Images/Defaults/profile_default.jpg" /><div class="bubble">' + chat.Message + '<div class="corner"></div><span>3 min</span></div></div>';
                                     }
                                     else {
                                         html += '<div class="message right"><img src="Theme/Images/Defaults/profile_default.jpg" /><div class="bubble">' + chat.Message + '<div class="corner"></div><span>3 min</span></div></div>';
@@ -224,7 +273,7 @@
 
                                 }
                                 $('#chat-messages').children().remove();
-                                $('#chat-messages').append(html);
+                                $('#chat-messages').append(html).attr('data-you-id',you);
                             }
                         }
 
@@ -296,7 +345,7 @@
                                 //$('#friends').children().remove();
                                 for (var i = 0; i < list.Data.length; i++) {
                                     var chat = list.Data[i];
-                                    html += '<div class="friend"><img src="' + chat.ProfileImagePath + '" /><p><strong>' + chat.FirstName + '</strong><span>' + chat.Email + '</span></p><div class="status available"></div></div>';
+                                    html += '<div data-chatter-id=' + chat.ChatterId + ' class="friend"><img src="' + chat.ProfileImagePath + '" /><p><strong>' + chat.FirstName + '</strong><span>' + chat.Email + '</span></p><div class="status available"></div></div>';
                                 }
                                 $('#friends').append(html);
                             }
