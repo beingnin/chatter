@@ -422,6 +422,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helper\Cryptor.cs" />
+    <Compile Include="Hubs\ChatHub.cs" />
     <Compile Include="Migrations\201805271555426_db create.cs" />
     <Compile Include="Migrations\201805271555426_db create.Designer.cs">
       <DependentUpon>201805271555426_db create.cs</DependentUpon>

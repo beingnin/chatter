@@ -11,7 +11,19 @@ namespace WebApplication2.App
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if(Request.Cookies["ch_us_id"]==null||string.IsNullOrWhiteSpace(Request.Cookies["ch_us_id"].Value))
+            {
+                Response.Redirect("/App/Account/Signin");
+            }
+            else
+            {
 
+                var chatter = new Models.Chatter().Get(Convert.ToInt64(Request.Cookies["ch_us_id"].Value)).Data;
+                if (chatter == null)
+                {
+                    Response.Redirect("/App/Account/Signin");
+                }
+            }
         }
     }
 }

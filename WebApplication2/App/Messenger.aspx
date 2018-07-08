@@ -20,53 +20,9 @@
                     </div>
 
                     <div id="friends">
-                        <%--                        <div class="friend">
-                            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg" />
-                            <p>
-                                <strong>Miro Badev</strong>
-                                <span>mirobadev@gmail.com</span>
-                            </p>
-                            <div class="status available"></div>
-                        </div>
-
-                        <div class="friend">
-                            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/2_copy.jpg" />
-                            <p>
-                                <strong>Martin Joseph</strong>
-                                <span>marjoseph@gmail.com</span>
-                            </p>
-                            <div class="status away"></div>
-                        </div>
-
-                        <div class="friend">
-                            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/3_copy.jpg" />
-                            <p>
-                                <strong>Tomas Kennedy</strong>
-                                <span>tomaskennedy@gmail.com</span>
-                            </p>
-                            <div class="status inactive"></div>
-                        </div>
-
-                        <div class="friend">
-                            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/4_copy.jpg" />
-                            <p>
-                                <strong>Enrique	Sutton</strong>
-                                <span>enriquesutton@gmail.com</span>
-                            </p>
-                            <div class="status inactive"></div>
-                        </div>
-
-                        <div class="friend">
-                            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/5_copy.jpg" />
-                            <p>
-                                <strong>Darnell	Strickland</strong>
-                                <span>darnellstrickland@gmail.com</span>
-                            </p>
-                            <div class="status inactive"></div>
-                        </div>--%>
 
                         <div id="search">
-                            <input type="text" id="searchfield" value="Search contacts..." />
+                            <input type="text" autocomplete="off" id="searchfield" value="Search by email address" />
                         </div>
 
                     </div>
@@ -85,57 +41,6 @@
                         <span id="chatDesc">--description--</span>
                     </div>
                     <div id="chat-messages">
-                        <%--<label>Thursday 02</label>--%>
-
-                        <%--                    <div class="message">
-                            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg" />
-                            <div class="bubble">
-                                Really cool stuff!
-                   
-                                <div class="corner"></div>
-                                <span>3 min</span>
-                            </div>
-                        </div>
-
-                        <div class="message right">
-                            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/2_copy.jpg" />
-                            <div class="bubble">
-                                Can you share a link for the tutorial?
-                   
-                                <div class="corner"></div>
-                                <span>1 min</span>
-                            </div>
-                        </div>
-
-                        <div class="message">
-                            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg" />
-                            <div class="bubble">
-                                Yeah, hold on
-                   
-                                <div class="corner"></div>
-                                <span>Now</span>
-                            </div>
-                        </div>
-
-                        <div class="message right">
-                            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/2_copy.jpg" />
-                            <div class="bubble">
-                                Can you share a link for the tutorial?
-                   
-                                <div class="corner"></div>
-                                <span>1 min</span>
-                            </div>
-                        </div>
-
-                        <div class="message">
-                            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg" />
-                            <div class="bubble">
-                                Yeah, hold on
-                   
-                                <div class="corner"></div>
-                                <span>Now</span>
-                            </div>
-                        </div>--%>
                     </div>
 
                     <div id="sendmessage">
@@ -149,9 +54,163 @@
         </div>
     </form>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="/Scripts/jquery.signalR-2.2.2.min.js"></script>
+    <script src="/signalr/hubs" type="text/javascript"></script>
     <script src="../Scripts/Cookies/jquery.cookie.js"></script>
     <script>
+        function Send(you, me, message) {
+            var message = { FromId: me, ToId: you, Message: message };
+            console.log(message);
+            $.ajax({
+                url: '/api/messenger/send',
+                contentType: 'application/json;charset=utf-8',
+                dataType: 'JSON',
+                method: 'POST',
+                data: JSON.stringify(message),
+                success: function (data) {
+                    console.log(data);
+                    if (data.Success) {
+                        var html = '<div class="message"><img src="'+data.Data.From.ProfileImagePath+'" /><div class="bubble">' + message.Message + '<div class="corner"></div><span>5 min</span></div></div>';
+                        $('#chat-messages').append(html);
+                        scrollDown();
+                        $('#message').val('');
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+
+            });
+        }
+
+        //show chat function
+        function showChat(name, desc, you, me) {
+            $.ajax({
+                url: '/api/messenger/getChats?me=' + me + '&you=' + you,
+                method: 'GET',
+                dataType: 'Json',
+                success: function (chats) {
+                    console.log(chats);
+                    if (chats.Success) {
+                        if (chats.Data != null) {
+                            var html = '';
+                            for (var i = 0; i < chats.Data.length; i++) {
+                                var chat = chats.Data[i];
+                                if (chat.FromId == me) {
+                                    html += '<div class="message"><img src="'+chat.From.ProfileImagePath+'" /><div class="bubble">' + chat.Message + '<div class="corner"></div><span>3 min</span></div></div>';
+                                }
+                                else {
+                                    html += '<div class="message right"><img src="' + chat.From.ProfileImagePath + '" /><div class="bubble">' + chat.Message + '<div class="corner"></div><span>3 min</span></div></div>';
+                                }
+
+                            }
+                            $('#chat-messages').children().remove();
+                            $('#chat-messages').append(html).attr('data-you-id', you);
+                            
+                        }
+                    }
+
+                    //appending chats
+
+
+
+                    setTimeout(function () { $("#profile p").addClass("animate"); $("#profile").addClass("animate"); }, 100);
+                    setTimeout(function () {
+                        $("#chat-messages").addClass("animate");
+                        $('.cx, .cy').addClass('s1');
+                        setTimeout(function () { $('.cx, .cy').addClass('s2'); }, 100);
+                        setTimeout(function () { $('.cx, .cy').addClass('s3'); }, 200);
+                    }, 150);
+
+                    $('.floatingImg').animate({
+                        'width': "68px",
+                        'left': '108px',
+                        'top': '20px'
+                    }, 200);
+
+                    //var name = $(obj).find("p strong").html();
+                    //var email = $(obj).find("p span").html();
+                    $("#profile p").html(name);
+                    $("#profile span").html(desc);
+
+                    //$(".message").not(".right").find("img").attr("src", $(clone).attr("src"));
+                    $('#friendslist').fadeOut();
+                    $('#chatview').fadeIn();
+                    $('#chatterImage').show();
+
+                    $('#close').unbind("click").click(function () {
+
+                        $("#chat-messages, #profile, #profile p").removeClass("animate");
+                        $('.cx, .cy').removeClass("s1 s2 s3");
+                        $('.floatingImg').animate({
+                            'width': "40px",
+                            'top': top,
+                            'left': '12px'
+                        }, 200, function () { $('#chatterImage').hide(); });
+
+                        setTimeout(function () {
+                            $('#chatview').fadeOut();
+                            $('#friendslist').fadeIn();
+                        }, 50);
+                    });
+                    scrollDown();
+                },
+
+
+            });
+        }
+
+        //scroll down logiv
+        function scrollDown() {
+            $('#chat-messages').scrollTop($('#chat-messages')[0].scrollHeight);
+        }
+
+        //chatlist function
+        function RefreshChatList(me) {
+            $.ajax({
+                url: '/api/Messenger/ChatList?me=' + me,
+                method: 'GET',
+                dataType: 'JSON',
+                success: function (list) {
+                    console.log(list);
+
+                    var html = '';
+                    if (list.Success) {
+                        if (list.Data != null) {
+                            //$('#friends').children().remove();
+                            for (var i = 0; i < list.Data.length; i++) {
+                                var chat = list.Data[i];
+                                html += '<div data-chatter-id=' + chat.ChatterId + ' class="friend"><img src="' + chat.ProfileImagePath + '" /><p><strong>' + chat.FirstName + '</strong><span>' + chat.Email + '</span></p><div class="status available"></div></div>';
+                            }
+                            $('#friends').children('.friend').remove();
+                            $('#friends').append(html);
+                        }
+                    }
+                },
+                error: function (xhr) {
+                    console.log(xhr);
+                }
+
+            });
+        }
+
+        //hub init
+        var chatcon = $.connection.chathub;
+
         $(document).ready(function () {
+
+            console.log(chatcon);
+
+            chatcon.client.newMessage = function (you, message, youProfileImage) {
+                var current_you_id = $('#chat-messages').attr('data-you-id');
+                if (current_you_id == you) {
+                    var html = '<div class="message right"><img src="' + youProfileImage + '" /><div class="bubble">' + message + '<div class="corner"></div><span>3 min</span></div></div>';
+                    $('#chat-messages').append(html);
+                    scrollDown();
+                }
+                
+                RefreshChatList($.cookie('ch_us_id'));
+            }
 
             RefreshChatList($.cookie('ch_us_id'));
 
@@ -168,13 +227,13 @@
             });
 
             $("#searchfield").focus(function () {
-                if ($(this).val() == "Search contacts...") {
+                if ($(this).val() == "Search by email address") {
                     $(this).val("");
                 }
             });
             $("#searchfield").focusout(function () {
                 if ($(this).val() == "") {
-                    $(this).val("Search contacts...");
+                    $(this).val("Search by email address");
 
                 }
             });
@@ -193,7 +252,7 @@
                                     var me = $.cookie('ch_us_id');
                                     var you = data.Data.ChatterId;
                                     showChat(data.Data.Name, data.Data.Email, you, me);
-
+                                    $('#searchfield').val('');
                                 }
                             }
                         },
@@ -216,7 +275,19 @@
             });
 
             //Send Button
+            $('#message').keyup(function (e) {
+                e.preventDefault();
+                if (e.keycode == 13 || e.which == 13) {
+                    var message = $('#message').val();
+                    if (message == '') {
+                        return;
+                    }
+                    var you = Number($('#chat-messages').attr('data-you-id'));
+                    var me = Number($.cookie('ch_us_id'));
+                    Send(you, me, message);
+                }
 
+            });
             $('#send').click(function () {
                 var message = $('#message').val();
                 if (message == '') {
@@ -227,136 +298,12 @@
                 Send(you, me, message);
             });
 
+            $.connection.hub.start()
+            .done(function () {
+            console.log('Now connected, connection ID=' + $.connection.hub.id);
+            })
+            .fail(function () { console.log('Could not Connect!'); });
 
-            function Send(you, me, message) {
-                var message = { FromId: me, ToId: you, Message: message };
-                console.log(message);
-                $.ajax({
-                    url: '/api/messenger/send',
-                    contentType: 'application/json;charset=utf-8',
-                    dataType:'JSON',
-                    method: 'POST',
-                    data: JSON.stringify(message),
-                    success: function (data) {
-                        console.log(data);
-                        if (data.Success) {
-                            var html = '<div class="message"><img src="Theme/Images/Defaults/profile_default.jpg" /><div class="bubble">' + message.Message + '<div class="corner"></div><span>3 min</span></div></div>';
-                            $('#chat-messages').append(html)
-                        }
-                    },
-                    error: function (error) {
-                        console.log(error);
-                    }
-
-                });
-            }
-
-            //show chat function
-            function showChat(name, desc, you, me) {
-                $.ajax({
-                    url: '/api/messenger/getChats?me=' + me + '&you=' + you,
-                    method: 'GET',
-                    dataType: 'Json',
-                    success: function (chats) {
-                        console.log(chats);
-                        if (chats.Success) {
-                            if (chats.Data != null) {
-                                var html = '';
-                                for (var i = 0; i < chats.Data.length; i++) {
-                                    var chat = chats.Data[i];
-                                    if (chat.FromId == me) {
-                                        html += '<div class="message"><img src="Theme/Images/Defaults/profile_default.jpg" /><div class="bubble">' + chat.Message + '<div class="corner"></div><span>3 min</span></div></div>';
-                                    }
-                                    else {
-                                        html += '<div class="message right"><img src="Theme/Images/Defaults/profile_default.jpg" /><div class="bubble">' + chat.Message + '<div class="corner"></div><span>3 min</span></div></div>';
-                                    }
-
-                                }
-                                $('#chat-messages').children().remove();
-                                $('#chat-messages').append(html).attr('data-you-id',you);
-                            }
-                        }
-
-                        //appending chats
-
-
-
-                        setTimeout(function () { $("#profile p").addClass("animate"); $("#profile").addClass("animate"); }, 100);
-                        setTimeout(function () {
-                            $("#chat-messages").addClass("animate");
-                            $('.cx, .cy').addClass('s1');
-                            setTimeout(function () { $('.cx, .cy').addClass('s2'); }, 100);
-                            setTimeout(function () { $('.cx, .cy').addClass('s3'); }, 200);
-                        }, 150);
-
-                        $('.floatingImg').animate({
-                            'width': "68px",
-                            'left': '108px',
-                            'top': '20px'
-                        }, 200);
-
-                        //var name = $(obj).find("p strong").html();
-                        //var email = $(obj).find("p span").html();
-                        $("#profile p").html(name);
-                        $("#profile span").html(desc);
-
-                        //$(".message").not(".right").find("img").attr("src", $(clone).attr("src"));
-                        $('#friendslist').fadeOut();
-                        $('#chatview').fadeIn();
-                        $('#chatterImage').show();
-
-                        $('#close').unbind("click").click(function () {
-
-                            $("#chat-messages, #profile, #profile p").removeClass("animate");
-                            $('.cx, .cy').removeClass("s1 s2 s3");
-                            $('.floatingImg').animate({
-                                'width': "40px",
-                                'top': top,
-                                'left': '12px'
-                            }, 200, function () { $('#chatterImage').hide(); });
-
-                            setTimeout(function () {
-                                $('#chatview').fadeOut();
-                                $('#friendslist').fadeIn();
-                            }, 50);
-                        });
-                    },
-
-
-                });
-
-
-
-            }
-
-
-            //chatlist function
-            function RefreshChatList(me) {
-                $.ajax({
-                    url: '/api/Messenger/ChatList?me=' + me,
-                    method: 'GET',
-                    dataType: 'JSON',
-                    success: function (list) {
-                        console.log(list);
-
-                        var html = '';
-                        if (list.Success) {
-                            if (list.Data != null) {
-                                //$('#friends').children().remove();
-                                for (var i = 0; i < list.Data.length; i++) {
-                                    var chat = list.Data[i];
-                                    html += '<div data-chatter-id=' + chat.ChatterId + ' class="friend"><img src="' + chat.ProfileImagePath + '" /><p><strong>' + chat.FirstName + '</strong><span>' + chat.Email + '</span></p><div class="status available"></div></div>';
-                                }
-                                $('#friends').append(html);
-                            }
-                        }
-                    },
-                    error: function (xhr) {
-                        console.log(xhr);
-                    }
-
-                });
-            }
         });
     </script>
 </body>

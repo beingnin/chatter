@@ -57,6 +57,7 @@ namespace WebApplication2.Models
                     {
                         this.HashedPasword = Helper.Cryptor.Hash(this.Password);
                         this.CreatedDate = DateTime.UtcNow;
+                        this.ProfileImagePath = @"Theme/Images/Defaults/profile_default.jpg";
                         db.Chatters.Add(this);
                         db.SaveChanges();
                         db.Close();
@@ -111,5 +112,21 @@ namespace WebApplication2.Models
                 }
             }
         }
+        public Message<object> Get(long id)
+        {
+            using (Data db = new Data())
+            {
+                try
+                {
+                    Chatter user = db.Chatters.Find(id);
+                    return new Message<object>(true, "Successfully retrieved data", "Chatter > Get", new { Name = user.FirstName + " " + user.MiddleName + " " + user.LastName, Email = user.Email, ChatterId = user.ChatterId });
+                }
+                catch (Exception ex)
+                {
+                    return new Message<object>(false, "Data retrieval failed", "Chatter > Get", ex);
+                }
+            }
+        }
+
     }
 }
