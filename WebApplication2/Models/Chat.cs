@@ -28,6 +28,7 @@ namespace WebApplication2.Models
 
         public bool IsDeleted { get; set; }
 
+        public bool IsRead { get; set; }
 
 
         public Message<List<Chat>> GetChats(long me, long you)
@@ -52,20 +53,25 @@ namespace WebApplication2.Models
             {
                 try
                 {
-                    object chatList = (from chat in db.Chats join
-                                       chatter in db.Chatters on chat.FromId equals chatter.ChatterId
-                                       where chat.IsDeleted == false && chat.ToId==me orderby                                        chat.SentTime descending
+                    object chatList = (from chat in db.Chats
+                                       join
+                 chatter in db.Chatters on chat.FromId equals chatter.ChatterId
+                                       where chat.IsDeleted == false && chat.ToId == me
+                                       orderby chat.SentTime descending
                                        select chatter).Union(
-                                       from chat in db.Chats join
-                                       chatter in db.Chatters on chat.ToId equals chatter.ChatterId
-                                       where chat.IsDeleted == false && chat.FromId == me orderby 
-                                       chat.SentTime descending
-                                       select chatter).Select(x=> new
+                                       from chat in db.Chats
+                                       join
+                 chatter in db.Chatters on chat.ToId equals chatter.ChatterId
+                                       where chat.IsDeleted == false && chat.FromId == me
+                                       orderby
+chat.SentTime descending
+                                       select chatter).Select(x => new
                                        {
                                            x.ChatterId,
                                            x.FirstName,
                                            x.Email,
-                                           x.ProfileImagePath
+                                           x.ProfileImagePath,
+                                           Unread = db.Chats.Count(y => !y.IsRead && y.FromId == x.ChatterId && y.ToId==me)
                                        }).ToList();
                     return new Message<object>(true, "Data retrieved successfully", "Chat > MyChatList", chatList);
 
@@ -80,7 +86,7 @@ namespace WebApplication2.Models
 
         public Message<object> Send()
         {
-            using(Data db=new Data())
+            using (Data db = new Data())
             {
                 try
                 {
@@ -90,23 +96,48 @@ namespace WebApplication2.Models
                     this.From = db.Chatters.Find(this.FromId);
                     this.To = db.Chatters.Find(this.ToId);
                     AfterSave(this, new EventArgs());
-                    return new Message<object>(true, "Message sent successfully", "Chat > Send",this);
+                    return new Message<object>(true, "Message sent successfully", "Chat > Send", this);
                 }
                 catch (Exception ex)
                 {
-                    return new Message<object>(false, "Something went wrong","Chat > Send",ex);
+                    return new Message<object>(false, "Something went wrong", "Chat > Send", ex);
                 }
             }
         }
 
         public delegate void OnSaveEventHandler(Chat sender, EventArgs e);
         public event OnSaveEventHandler Save_Completed;
-        protected virtual void AfterSave(Chat source,EventArgs e)
+        protected virtual void AfterSave(Chat source, EventArgs e)
         {
             if (Save_Completed != null)
             {
-                Save_Completed(source,e);
+                Save_Completed(source, e);
             }
+        }
+
+        public Message<object> MarkAsRead(long me, long you)
+        {
+            using (Data db = new Data())
+            {
+                try
+                {
+                    var chats = db.Chats.Where(x => (x.From.ChatterId == you && x.To.ChatterId == me && x.IsRead==false) && !x.IsDeleted).ToList();
+                    chats.ForEach(x =>
+                    {
+                        x.IsRead = true;
+                        db.Chats.Add(x);
+                        db.Entry(x).State = System.Data.Entity.EntityState.Modified;
+                    });
+                    
+                    db.SaveChanges();
+                    return new Message<object>(true, "Marked as unread", "Chat > MarkAsRead", null);
+                }
+                catch (Exception ex)
+                {
+                    return new Message<object>(false, "Marking failed", "Chat > MarkAsRead", ex);
+                }
+            }
+
         }
 
     }

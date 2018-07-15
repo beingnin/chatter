@@ -1,17 +1,56 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
 namespace WebApplication2.Hubs
 {
     [HubName("chathub")]
-    public class ChatHub:Hub
+    public class ChatHub : Hub
     {
-        public void send( int you, string message,string youProfileImage)
+        public void send(int you, string message, string youProfileImage)
         {
             Clients.All.newMessage(you, message, youProfileImage);
+
+        }
+        public override Task OnConnected()
+        {
+            Cookie user;
+            if (Context.RequestCookies.TryGetValue("ch_us_id", out user))
+            {
+                long userid = Convert.ToInt64(user.Value);
+                List<string> connectionIds;
+                if (Connections.Active.TryGetValue(userid, out connectionIds))
+                {
+                    connectionIds.Add(Context.ConnectionId);
+                }
+                else
+                {
+                    connectionIds = new List<string>();
+                    Connections.Active.Add(userid, connectionIds);
+                }
+                List<string> result = Connections.GetConnections(userid);
+                return base.OnConnected();
+            }
+
+            return base.OnConnected();
+        }
+        public override Task OnDisconnected(bool stopCalled)
+        {
+            Cookie user;
+            if (Context.RequestCookies.TryGetValue("ch_us_id", out user))
+            {
+                long userid = Convert.ToInt64(user.Value);
+                List<string> connectionIds;
+                if (Connections.Active.TryGetValue(userid, out connectionIds))
+                {
+                    connectionIds.Remove(Context.ConnectionId);
+                    List<string> result = Connections.GetConnections(userid);
+                }
+            }
+            return base.OnDisconnected(stopCalled);
         }
     }
 }

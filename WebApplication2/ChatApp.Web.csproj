@@ -422,6 +422,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helper\Cryptor.cs" />
+    <Compile Include="Hubs\ActiveConnections.cs" />
     <Compile Include="Hubs\ChatHub.cs" />
     <Compile Include="Migrations\201805271555426_db create.cs" />
     <Compile Include="Migrations\201805271555426_db create.Designer.cs">
@@ -430,6 +431,10 @@
     <Compile Include="Migrations\201805271624110_pro pic add.cs" />
     <Compile Include="Migrations\201805271624110_pro pic add.Designer.cs">
       <DependentUpon>201805271624110_pro pic add.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807151214254_new column isread.cs" />
+    <Compile Include="Migrations\201807151214254_new column isread.Designer.cs">
+      <DependentUpon>201807151214254_new column isread.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Chat.cs" />
@@ -473,6 +478,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201805271624110_pro pic add.resx">
       <DependentUpon>201805271624110_pro pic add.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807151214254_new column isread.resx">
+      <DependentUpon>201807151214254_new column isread.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

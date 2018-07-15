@@ -13,7 +13,9 @@ namespace WebApplication2.Controllers
         [HttpGet]
         public HttpResponseMessage GetChats([FromUri]long me, [FromUri]long you)
         {
-            return Request.CreateResponse(HttpStatusCode.OK, new Models.Chat().GetChats(me, you));
+            var result = new Models.Chat().GetChats(me, you);
+            new Models.Chat().MarkAsRead(me, you);
+            return Request.CreateResponse(HttpStatusCode.OK, result);
         }
         [HttpGet]
         public HttpResponseMessage ChatList([FromUri] long me)
@@ -27,8 +29,14 @@ namespace WebApplication2.Controllers
             {
                 chat.Save_Completed += (sender, e) =>
                 {
-                    IHubContext hubcontext= GlobalHost.ConnectionManager.GetHubContext<WebApplication2.Hubs.ChatHub>();
-                    hubcontext.Clients.All.newMessage(sender.FromId, sender.Message,sender.From.ProfileImagePath);
+                    IHubContext hubcontext = GlobalHost.ConnectionManager.GetHubContext<WebApplication2.Hubs.ChatHub>();
+
+                    foreach (var con in Hubs.Connections.GetConnections(chat.ToId))
+                    {
+
+                        hubcontext.Clients.Client(con).newMessage(sender.FromId, sender.Message, sender.From.ProfileImagePath);
+                    }
+
                 };
                 return Request.CreateResponse(HttpStatusCode.OK, chat.Send());
             }

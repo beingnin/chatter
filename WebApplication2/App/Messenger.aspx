@@ -70,7 +70,7 @@
                 success: function (data) {
                     console.log(data);
                     if (data.Success) {
-                        var html = '<div class="message"><img src="'+data.Data.From.ProfileImagePath+'" /><div class="bubble">' + message.Message + '<div class="corner"></div><span>5 min</span></div></div>';
+                        var html = '<div class="message"><img src="' + data.Data.From.ProfileImagePath + '" /><div class="bubble">' + message.Message + '<div class="corner"></div><span>5 min</span></div></div>';
                         $('#chat-messages').append(html);
                         scrollDown();
                         $('#message').val('');
@@ -97,7 +97,7 @@
                             for (var i = 0; i < chats.Data.length; i++) {
                                 var chat = chats.Data[i];
                                 if (chat.FromId == me) {
-                                    html += '<div class="message"><img src="'+chat.From.ProfileImagePath+'" /><div class="bubble">' + chat.Message + '<div class="corner"></div><span>3 min</span></div></div>';
+                                    html += '<div class="message"><img src="' + chat.From.ProfileImagePath + '" /><div class="bubble">' + chat.Message + '<div class="corner"></div><span>3 min</span></div></div>';
                                 }
                                 else {
                                     html += '<div class="message right"><img src="' + chat.From.ProfileImagePath + '" /><div class="bubble">' + chat.Message + '<div class="corner"></div><span>3 min</span></div></div>';
@@ -106,7 +106,7 @@
                             }
                             $('#chat-messages').children().remove();
                             $('#chat-messages').append(html).attr('data-you-id', you);
-                            
+
                         }
                     }
 
@@ -140,6 +140,7 @@
 
                     $('#close').unbind("click").click(function () {
 
+                        RefreshChatList($.cookie('ch_us_id'));
                         $("#chat-messages, #profile, #profile p").removeClass("animate");
                         $('.cx, .cy').removeClass("s1 s2 s3");
                         $('.floatingImg').animate({
@@ -180,10 +181,22 @@
                             //$('#friends').children().remove();
                             for (var i = 0; i < list.Data.length; i++) {
                                 var chat = list.Data[i];
-                                html += '<div data-chatter-id=' + chat.ChatterId + ' class="friend"><img src="' + chat.ProfileImagePath + '" /><p><strong>' + chat.FirstName + '</strong><span>' + chat.Email + '</span></p><div class="status available"></div></div>';
+                                html += '<div data-chatter-id=' + chat.ChatterId + ' class="friend"><img src="' + chat.ProfileImagePath + '" /><p><strong>' + chat.FirstName + '</strong><span>' + chat.Email + '</span></p>';
+                                if (chat.Unread != 0) {
+                                    html += '<div style="display:block" class="unread-count status available">' + chat.Unread + '</div></div>';
+                                } else {
+                                    html += '<div style="display:none" class="unread-count status available">' + chat.Unread + '</div></div>';
+                                }
+
                             }
                             $('#friends').children('.friend').remove();
                             $('#friends').append(html);
+                            try {
+                                afterRefresh();
+                            }
+                            catch (e) {
+
+                            }
                         }
                     }
                 },
@@ -207,9 +220,13 @@
                     var html = '<div class="message right"><img src="' + youProfileImage + '" /><div class="bubble">' + message + '<div class="corner"></div><span>3 min</span></div></div>';
                     $('#chat-messages').append(html);
                     scrollDown();
+                    RefreshChatList($.cookie('ch_us_id'));
                 }
-                
-                RefreshChatList($.cookie('ch_us_id'));
+                else {
+                    RefreshChatList($.cookie('ch_us_id'));
+                }
+
+
             }
 
             RefreshChatList($.cookie('ch_us_id'));
@@ -300,7 +317,7 @@
 
             $.connection.hub.start()
             .done(function () {
-            console.log('Now connected, connection ID=' + $.connection.hub.id);
+                console.log('Now connected, connection ID=' + $.connection.hub.id);
             })
             .fail(function () { console.log('Could not Connect!'); });
 
