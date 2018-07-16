@@ -218,7 +218,11 @@
     <Content Include="App\index.html" />
     <Content Include="App\Messenger.aspx" />
     <Content Include="App\Theme\css\style.css" />
+    <Content Include="App\Theme\Images\chat-list.png" />
+    <Content Include="App\Theme\Images\chat.png" />
     <Content Include="App\Theme\Images\Defaults\profile_default.jpg" />
+    <Content Include="App\Theme\Images\timeline1.png" />
+    <Content Include="App\Theme\Images\user--profile.png" />
     <Content Include="App\Theme\js\app.js" />
     <Content Include="App\Theme\js\index.js" />
     <Content Include="avatar2.jpg" />
@@ -356,7 +360,9 @@
     <Content Include="Theme\Chat\normalize.css" />
     <Content Include="Theme\Chat\washington.css" />
     <Content Include="ViewSwitcher.ascx" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Bundle.config" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />

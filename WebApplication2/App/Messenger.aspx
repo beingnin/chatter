@@ -5,18 +5,25 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>Messenger</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="Theme/css/style.css" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css' />
 </head>
-<body style="background: #232020">
+<body style="background: #d6d9dc">
     <form id="form1" runat="server">
         <div>
             <div id="chatbox">
                 <div id="friendslist">
                     <div id="topmenu">
-                        <span class="friends"></span>
-                        <span class="chats"></span>
-                        <span class="history"></span>
+                        <span class="menu active">
+                            <img src="Theme/Images/chat-list.png" />
+                        </span>
+                        <span class="menu">
+                            <img src="Theme/Images/chat.png" />
+                        </span>
+                        <span class="menu">
+                            <img src="Theme/Images/user--profile.png" />
+                        </span>
                     </div>
 
                     <div id="friends">
@@ -44,8 +51,8 @@
                     </div>
 
                     <div id="sendmessage">
-                        <input id="message" autocomplete="off" type="text" value="Send message..." />
-                        <button type="button" id="send"></button>
+                        <input id="message" autocomplete="off" type="text" placeholder="Type a message..." />
+                        <button type="button" id="send" style="display: none"></button>
                     </div>
 
                 </div>
@@ -181,7 +188,7 @@
                             //$('#friends').children().remove();
                             for (var i = 0; i < list.Data.length; i++) {
                                 var chat = list.Data[i];
-                                html += '<div data-chatter-id=' + chat.ChatterId + ' class="friend"><img src="' + chat.ProfileImagePath + '" /><p><strong>' + chat.FirstName + '</strong><span>' + chat.Email + '</span></p>';
+                                html += '<div data-chatter-id=' + chat.ChatterId + ' class="chat"><img src="' + chat.ProfileImagePath + '" /><p><strong>' + chat.FirstName + '</strong><span>' + chat.Email + '</span></p>';
                                 if (chat.Unread != 0) {
                                     html += '<div style="display:block" class="unread-count status available">' + chat.Unread + '</div></div>';
                                 } else {
@@ -189,7 +196,7 @@
                                 }
 
                             }
-                            $('#friends').children('.friend').remove();
+                            $('#friends').children('.chat').remove();
                             $('#friends').append(html);
                             try {
                                 afterRefresh();
@@ -232,13 +239,13 @@
             RefreshChatList($.cookie('ch_us_id'));
 
             $("#sendmessage input").focus(function () {
-                if ($(this).val() == "Send message...") {
+                if ($(this).val() == "Type a message...") {
                     $(this).val("");
                 }
             });
             $("#sendmessage input").focusout(function () {
                 if ($(this).val() == "") {
-                    $(this).val("Send message...");
+                    $(this).val("Type a message...");
 
                 }
             });
@@ -282,7 +289,7 @@
 
 
             //chat list click
-            $('body').on('click', '.friend', function () {
+            $('body').on('click', '.chat', function () {
 
                 var name = $(this).find("p strong").html();
                 var desc = $(this).find("p span").html();

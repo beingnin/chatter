@@ -16,50 +16,57 @@ body {
 }
 #view-code:hover{opacity:1;}
 #chatbox{
-	width:290px;
-	background:#fff;
-	border-radius:6px;
-	overflow:hidden;
-	height:484px;
-	position:absolute;
-	top:100px;
-	left:50%;
-	margin-left:-155px;
+    width: 320px;
+    background: #fff;
+    border-radius: 6px;
+    overflow: hidden;
+    height: 94vh;
+    position: absolute;
+    top: 3vh;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 #friendslist{
 	position:absolute;
 	top:0;
 	left:0;
-	width:290px;
-	height:484px;
+	width:100%;
+	height:100%;
 }
 #topmenu{
-	height:69px;
-	width:290px;
+	width:100%;
 	border-bottom:1px solid #d8dfe3;	
+    display: flex;	
 }
-#topmenu span{
-	float:left;	
-	width: 96px;
-    height: 70px;
-    background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/top-menu.png") -3px -118px no-repeat;
+    #topmenu span {
+        flex: 1 1;
+        text-align: center;
+        padding: 16px 0;
+        cursor: pointer;
+    }
+#topmenu > .menu > img {
+    height: 30px;
+    filter: grayscale(100%);
 }
-#topmenu span.friends{margin-bottom:-1px;}
+#topmenu > .menu:hover > img, #topmenu > .menu.active > img {
+    filter: none;
+}
+/*#topmenu span.friends{margin-bottom:-1px;}
 #topmenu span.chats{background-position:-95px 25px; cursor:pointer;}
 #topmenu span.chats:hover{background-position:-95px -46px; cursor:pointer;}
 #topmenu span.history{background-position:-190px 24px; cursor:pointer;}
-#topmenu span.history:hover{background-position:-190px -47px; cursor:pointer;}
-.friend{
+#topmenu span.history:hover{background-position:-190px -47px; cursor:pointer;}*/
+.chat{
 	height:70px;
 	border-bottom:1px solid #e7ebee;		
 	position:relative;
 }
-.friend:hover{
+.chat:hover{
 	background:#f1f4f6;
 	cursor:pointer;
 }
-.friend img{
+.chat img{
 	width:40px;
 	border-radius:50%;
 	margin:15px;
@@ -73,7 +80,7 @@ body {
 	left:12px;
 	border:3px solid #fff;
 }
-.friend p{
+.chat p{
 	padding:15px 0 0 0;			
 	float:left;
 	width:220px;
@@ -83,32 +90,35 @@ body {
     /* flex-basis: 11px; */
     flex-wrap: wrap-reverse;
 }
-.friend p strong{
+.chat p strong{
   font-weight:600;
   font-size:15px;
 	color:#597a96;  
 
 }
-.friend p span{
+.chat p span{
 	font-size:13px;
 	font-weight:400;
 	color:#aab8c2;
 }
-.friend .status{
-	background:#26c281;
-	border-radius:50%;	
-	width:9px;
-	height:9px;
-	position:absolute;
-	top:31px;
-	right:17px;
+.chat .status{
+    background: #26c281;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    line-height: 1.6;
+    position: absolute;
+    top: 30px;
+    right: 17px;
+    text-align: center;
+    color: #fff;
 }
-.friend .status.away{background:#ffce54;}
-.friend .status.inactive{background:#eaeef0;}
+.chat .status.away{background:#ffce54;}
+.chat .status.inactive{background:#eaeef0;}
 #search{
 	background:#e3e9ed url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/search.png") -11px 0 no-repeat;
 	height:60px;
-	width:290px;
+	width:100%;
 	position:absolute;
 	bottom:0;
 	left:0;
@@ -127,7 +137,7 @@ body {
 	 outline: 0;
 }
 #chatview{
-	width:290px;
+	width:100%;
 	height:484px;
 	position:absolute;
 	top:0;
@@ -141,8 +151,9 @@ body {
 	text-align:center;
 	color:#fff;
 }
-.p1 #profile{
-	background:#fff url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/timeline1.png") 0 0 no-repeat;
+.p1 #profile {
+    background: #fff url('../Images/timeline1.png') 0 0 no-repeat;
+    background-size: cover;
 }
 #profile .avatar{
 	width:68px;
@@ -177,8 +188,8 @@ body {
 #chat-messages{
 	opacity:0;
 	margin-top:30px;
-	width:290px;
-	height:270px;
+	width:100%;
+	height:100%;
 	overflow-y:scroll;	
 	overflow-x:hidden;
 	padding-right: 20px;
@@ -257,28 +268,24 @@ div.message.right .corner{
 	  right: 0;
 	  bottom: -22px;
 }
-#sendmessage{
-	height:60px;
-	border-top:1px solid #e7ebee;	
-	position:absolute;
-	bottom:0;
-	right:0px;
-	width:290px;
-	background:#fff;
-	padding-bottm:50px;
+#sendmessage {
+    height: 60px;
+    border-top: 1px solid #e7ebee;
+    position: fixed;
+    bottom: 0;
+    right: 0px;
+    width: 100%;
+    background: #e3e9ed;
 }
 #sendmessage input{
-	border
-}
-#sendmessage input{
-	background:#fff;
-	margin:21px 0 0 21px;
-	border:none;
-	padding:0;
-	font-size:14px;
-	font-family:"Open Sans", sans-serif; 
-	font-weight:400px;
-	color:#aab8c2;
+    background: #e3e9ed;
+    border: none;
+    padding: 0 15px;
+    font-size: 14px;
+    font-family: "Open Sans", sans-serif;
+    color: #8495a3;
+    height: 100%;
+    width: 100%;
 }
 #sendmessage input:focus{
 	 outline: 0;
@@ -386,4 +393,14 @@ div.message.right .corner{
 #chatview, #sendmessage { 
 overflow:hidden; 
 border-radius:6px; 
+}
+
+/* MEDIA QUERIES */
+
+@media screen and (max-width: 735px)  {
+    #chatbox {
+        width: 100vw;
+        top: 0;
+        height: 100vh;
+    }
 }
