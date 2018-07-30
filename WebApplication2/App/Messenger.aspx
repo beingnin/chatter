@@ -31,6 +31,7 @@
                         <div id="search">
                             <input type="text" autocomplete="off" id="searchfield" placeholder="Search by email address" />
                         </div>
+                        <div id="friendsChat"></div>
                         <div id="createGroup">
                             <a href="#" data-modal="createGroupModal" data-modal-title="Create New Group">
                                 <img src="Theme/Images/chat-list.png" height="25"/>
@@ -61,7 +62,7 @@
 
                 </div>
 
-                <img id="chatterImage" src="Theme/Images/Defaults/profile_default.jpg" class="floatingImg" style="top: 20px; width: 68px; left: 108px; display: none" />
+                <img id="chatterImage" src="Theme/Images/Defaults/profile_default.jpg" class="floatingImg" style="display: none" />
 
                 <div id="createGroupModal" class="modal">
                     <input type="text" placeholder="Add Email Id's" />
@@ -143,9 +144,9 @@
                     }, 150);
 
                     $('.floatingImg').animate({
-                        'width': "68px",
-                        'left': '108px',
-                        'top': '20px'
+                        'width': "70px",
+                        'left': '50%',
+                        'top': '15px'
                     }, 200);
 
                     //var name = $(obj).find("p strong").html();
@@ -164,9 +165,9 @@
                         $("#chat-messages, #profile, #profile p").removeClass("animate");
                         $('.cx, .cy').removeClass("s1 s2 s3");
                         $('.floatingImg').animate({
-                            'width': "40px",
-                            'top': top,
-                            'left': '12px'
+                            'width': "50%",
+                            'top': '15px',
+                            'transform': 'translateX(-50%)'
                         }, 200, function () { $('#chatterImage').hide(); });
 
                         setTimeout(function () {
@@ -209,8 +210,8 @@
                                 }
 
                             }
-                            $('#friends').children('.chat').remove();
-                            $('#friends').append(html);
+                            $('#friendsChat').children('.chat').remove();
+                            $('#friendsChat').append(html);
                             try {
                                 afterRefresh();
                             }
