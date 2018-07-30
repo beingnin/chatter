@@ -17,5 +17,10 @@ namespace WebApplication2.Controllers
         {
             return Request.CreateResponse(HttpStatusCode.OK, new Models.Chatter().Get(email));
         }
+        public HttpResponseMessage UpdateProfilePIc([FromUri] long chatterId, [FromBody]string b64)
+        {
+            return Request.CreateResponse(new Models.Chatter().ChangeProfilePic(chatterId, b64));
+        }
+
     }
 }
