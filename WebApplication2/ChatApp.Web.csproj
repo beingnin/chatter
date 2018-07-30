@@ -225,6 +225,7 @@
     <Content Include="App\Theme\Images\user--profile.png" />
     <Content Include="App\Theme\js\app.js" />
     <Content Include="App\Theme\js\index.js" />
+    <Content Include="App\Theme\js\jquery.min.js" />
     <Content Include="avatar2.jpg" />
     <Content Include="avatar_g2.png" />
     <Content Include="Contact.aspx" />

@@ -11,7 +11,7 @@
 </head>
 <body style="background: #d6d9dc">
     <form id="form1" runat="server">
-        <div>
+        <div class="chatter-wrap">
             <div id="chatbox">
                 <div id="friendslist">
                     <div id="topmenu">
@@ -29,9 +29,13 @@
                     <div id="friends">
 
                         <div id="search">
-                            <input type="text" autocomplete="off" id="searchfield" value="Search by email address" />
+                            <input type="text" autocomplete="off" id="searchfield" placeholder="Search by email address" />
                         </div>
-
+                        <div id="createGroup">
+                            <a href="#" data-modal="createGroupModal" data-modal-title="Create New Group">
+                                <img src="Theme/Images/chat-list.png" height="25"/>
+                            </a>
+                        </div>
                     </div>
 
                 </div>
@@ -56,11 +60,20 @@
                     </div>
 
                 </div>
+
                 <img id="chatterImage" src="Theme/Images/Defaults/profile_default.jpg" class="floatingImg" style="top: 20px; width: 68px; left: 108px; display: none" />
+
+                <div id="createGroupModal" class="modal">
+                    <input type="text" placeholder="Add Email Id's" />
+                </div>
+
+
+
             </div>
         </div>
     </form>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <%--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>--%>
+    <script src="Theme/js/jquery.min.js"></script>
     <script src="/Scripts/jquery.signalR-2.2.2.min.js"></script>
     <script src="/signalr/hubs" type="text/javascript"></script>
     <script src="../Scripts/Cookies/jquery.cookie.js"></script>
@@ -218,6 +231,20 @@
         var chatcon = $.connection.chathub;
 
         $(document).ready(function () {
+
+            // CHATTER MODAL START FUNCTION
+            $('[data-modal]').click(function() {
+                let modalTargetId = $(this).attr('data-modal');
+                let modalTitle = $(this).attr('data-modal-title') || 'Chatter Modal';
+                let html = `<div class="chatter-modal-wrapper">
+                    <div class="modal-header"><div>${modalTitle} <span class="chatter-modal-close">x</span></div></div></div>`;
+                $(document).find(`#${modalTargetId}`).addClass('in').wrap(html);
+            });
+            // CHATTER MODAL CLOSE FUNCTION
+            $('body').on('click', '.chatter-modal-close', function () {
+                $(this).closest('.chatter-modal-wrapper').find('.modal').removeClass('in');
+                $(this).closest('.modal-header').unwrap().remove();
+            });
 
             console.log(chatcon);
 
