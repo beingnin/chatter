@@ -17,9 +17,17 @@ namespace WebApplication2.Controllers
         {
             return Request.CreateResponse(HttpStatusCode.OK, new Models.Chatter().Get(email));
         }
-        public HttpResponseMessage UpdateProfilePIc([FromUri] long chatterId, [FromBody]string b64)
+        public HttpResponseMessage UpdateProfilePic([FromUri] long chatterId, [FromBody]string b64)
         {
             return Request.CreateResponse(new Models.Chatter().ChangeProfilePic(chatterId, b64));
+        }
+        public HttpResponseMessage ChangeName([FromUri] long chatterId, [FromUri]string fName,[FromUri] string lName)
+        {
+            return Request.CreateResponse(new Models.Chatter().ChangeName(chatterId, fName,lName));
+        }
+        public HttpResponseMessage ChangePassword([FromUri] long chatterId, [FromUri]string oldPwd, [FromUri] string newPwd)
+        {
+            return Request.CreateResponse(new Models.Chatter().ChangePassword(chatterId,newPwd,oldPwd));
         }
 
     }
