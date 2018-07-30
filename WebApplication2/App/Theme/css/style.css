@@ -483,6 +483,7 @@ border-radius:6px;
 }
 .modal {
     display: none;
+    height: 100%;
 }
 .modal.in {
     display: block;
@@ -549,10 +550,20 @@ border-radius:6px;
     color: #ffffff;
 }
 .group-participants {
-    height: calc(100% - 10px);
+    height: calc(100% - 160px);
     list-style: none;
+    box-sizing: border-box;
+    margin: 15px 0;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    width: calc(100% + 35px);
+    padding-right: 20px;
 }
 .group-participants > li {
+    box-sizing: border-box;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #f2f2f2;
 
 }
 .group-title > input {
