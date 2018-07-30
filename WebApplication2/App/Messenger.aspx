@@ -13,34 +13,34 @@
     <form id="form1" runat="server">
         <div class="chatter-wrap">
             <div id="chatbox">
-                <div id="friendslist">
-                    <div id="topmenu">
-                        <span class="menu active">
-                            <img src="Theme/Images/chat-list.png" />
-                        </span>
-                        <span class="menu">
-                            <img src="Theme/Images/chat.png" />
-                        </span>
-                        <span class="menu">
-                            <img src="Theme/Images/user--profile.png" />
-                        </span>
-                    </div>
+                <div id="topmenu">
+                    <a class="menu" href="#" onclick="switchTab('friendslist')">
+                        <img src="Theme/Images/chat-list.png" />
+                    </a>
+                    <a class="menu" href="#" onclick="switchTab('friendslist')">
+                        <img src="Theme/Images/chat.png" />
+                    </a>
+                    <a class="menu" href="#" onclick="switchTab('chatSettings')">
+                        <img src="Theme/Images/user--profile.png" />
+                    </a>
+                </div>
 
+                <%-- MAIN CHAT SCREEN --%>
+                <div id="friendslist" class="tab-content">
                     <div id="friends">
-
                         <div id="search">
                             <input type="text" autocomplete="off" id="searchfield" placeholder="Search by email address" />
                         </div>
                         <div id="friendsChat"></div>
                         <div id="createGroup">
-                            <a href="#" data-modal="createGroupModal" data-modal-title="Create New Group">
+                            <a href="#" data-modal="createGroupModal" data-modal-title="Chatter Group">
                                 <img src="Theme/Images/chat-list.png" height="25"/>
                             </a>
                         </div>
                     </div>
-
                 </div>
 
+                <%-- INDIVIDUAL CHAT SCREEN --%>
                 <div id="chatview" class="p1">
                     <div id="profile">
 
@@ -62,10 +62,40 @@
 
                 </div>
 
+                <%-- SETTINGS PAGE --%>
+                <div id="chatSettings" class="tab-content" style="display: none">
+                    <h3 class="sett-title">Chatter Settings</h3>
+                    <div class="sett-dp">
+                        <img src="Theme/Images/Defaults/profile_default.jpg"/>
+                        <a href="#">Change</a>
+                    </div>
+                    <div class="sett-username">
+                        <h4 class="sett-title--sub">Chat Username <button>Update</button></h4>
+                        <input type="text" class="input" placeholder="Username"/>
+                    </div>
+                    <div class="sett-password">
+                        <h4 class="sett-title--sub">Change Password <button>Update</button></h4>
+                        <input type="password" class="input" placeholder="Old Password"/>
+                        <input type="password" class="input" placeholder="New Password"/>
+                        <input type="password" class="input" placeholder="Confirm New Password"/>
+                        
+                    </div>
+                </div>
+
                 <img id="chatterImage" src="Theme/Images/Defaults/profile_default.jpg" class="floatingImg" style="display: none" />
 
                 <div id="createGroupModal" class="modal">
-                    <input type="text" placeholder="Add Email Id's" />
+                    <div class="group-title">
+                        <input type="text" class="group-email-input" value="Group Name" />
+                    </div>
+                    <input type="text" class="group-email-input" placeholder="add participants email id here..." />
+                    <button class="group-email-add">+</button>
+                    <ul class="group-participants">
+                        <li>User 1</li>
+                        <li>User 2</li>
+                        <li>User 3</li>
+                    </ul>
+                    <button class="create-group">Create Group</button>
                 </div>
 
 
@@ -79,6 +109,16 @@
     <script src="/signalr/hubs" type="text/javascript"></script>
     <script src="../Scripts/Cookies/jquery.cookie.js"></script>
     <script>
+
+        var switchTab = (target) => {
+            let i;
+            let targets = document.querySelectorAll('.tab-content');
+            for (i = 0 ; i < targets.length; i++) {
+                targets[i].style.display = 'none';
+            }
+            document.getElementById(target).style.display = 'block';
+        }
+
         function Send(you, me, message) {
             var message = { FromId: me, ToId: you, Message: message };
             console.log(message);

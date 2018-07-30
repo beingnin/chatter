@@ -27,21 +27,77 @@ body {
     transform: translateX(-50%);
 }
 #friends {
-        height: calc(100% - 126px);
+    height: calc(100% - 60px);
 }
 #friendslist{
-	position:absolute;
-	top:0;
-	left:0;
-	width:100%;
-	height:100%;
+    position: absolute;
+    top: 66.6px;
+    left: 0;
+    width: 100%;
+    height: calc(100% - 66.6px);
+}
+#chatSettings {
+    padding: 15px;
+}
+.sett-title {
+    text-align: center;
+    color: #8c8c8c;
+}
+.sett-dp {
+    text-align: center;
+    margin: 25px 0 15px;
+}
+.sett-dp > img {
+    border-radius: 50%;
+}
+    .sett-dp > a {
+        display: block;
+        width: 100px;
+        margin: 0 auto;
+        background-color: #86b1e6;
+        padding: 6px 12px;
+        border-radius: 3px;
+        text-decoration: none;
+        color: white;
+        margin-top: 5px;
+    }
+.sett-username, .sett-password {
+    padding: 10px;
+}
+.sett-title--sub {
+    margin-bottom: 5px;
+    color: #9E9E9E;
+}
+
+#chatSettings .input {
+    padding: 6px 12px;
+    margin-bottom: 8px;
+    font-size: 14px;
+    border: 1px solid rgba(134, 177, 230, 0.3);
+    border-radius: 3px;
+    width: 100%;
+    display: inline;
+    outline-color: transparent;
+    box-sizing: border-box;
+    transition: all .2s ease-in-out;
+    cursor: text;
+}
+#chatSettings .input:focus {
+    outline-color: rgb(134, 177, 230)
+}
+#chatSettings button {
+border: none;
+    background-color: #ffffff;
+    color: #86b1e6;
+    float: right;
+        text-transform: lowercase;
 }
 #topmenu{
 	width:100%;
 	border-bottom:1px solid #d8dfe3;	
     display: flex;	
 }
-    #topmenu span {
+    #topmenu a {
         flex: 1 1;
         text-align: center;
         padding: 16px 0;
@@ -416,11 +472,14 @@ border-radius:6px;
 /* CHATTER MODAL */
 .chatter-modal-wrapper {
     position: absolute;
+    top: 0;
+    left: 0;
     height: 100%;
     width: 100%;
     background-color: #fff;
     padding: 55px 15px 25px;
     box-sizing: border-box;
+        z-index: 99999;
 }
 .modal {
     display: none;
@@ -449,12 +508,63 @@ border-radius:6px;
     width: 22px;
     text-align: center;
     font-size: 18px;
-    color: #424242;
-    background-color: rgba(255, 255, 255, 0.3);
+    color: #ffffff;
+    background-color: rgba(0, 0, 0, 0.3);
     border-radius: 50%;
+        line-height: 1;
 }
 .chatter-modal-close:hover {
     background-color: rgba(255, 255, 255, 0.4);
+}
+
+.group-email-input {
+    padding: 12px;
+    border: 1px solid rgba(134, 177, 230, 0.3);
+    border-radius: 20px;
+    width: calc(100% - 55px);
+    box-sizing: border-box;
+}
+.group-email-input:focus {
+    outline-color: rgba(134, 177, 230, 1)
+}
+
+.group-email-add {
+    padding: 7.4px 12px;
+    width: 48px;
+    height: 38px;
+    border: none;
+    border-radius: 20px;
+    background-color: #87b0e2;
+    font-size: 20px;
+    color: #ffffff;
+    float: right;
+}
+.create-group {
+    padding: 8px 12px;
+    width: 100%;
+    border: none;
+    border-radius: 20px;
+    background-color: #87b0e2;
+    font-size: 16px;
+    color: #ffffff;
+}
+.group-participants {
+    height: calc(100% - 10px);
+    list-style: none;
+}
+.group-participants > li {
+
+}
+.group-title > input {
+    padding: 12px;
+    border: none;
+    border-radius: 3px;
+    width: 100%;
+    background-color: #e3e9ed;
+    margin: 15px 0 10px;
+    font-size: 16px;
+    color: #87b0e2;
+    box-sizing: border-box;
 }
 
 /* MEDIA QUERIES */
