@@ -1,4 +1,7 @@
 * { margin: 0px; padding: 0px; }
+button, a {
+    cursor: pointer;
+}
 body {
 	background: #f0f1f2;
 	font:12px "Open Sans", sans-serif; 
@@ -524,9 +527,10 @@ border-radius:6px;
     border-radius: 20px;
     width: calc(100% - 55px);
     box-sizing: border-box;
+    outline: none;
 }
 .group-email-input:focus {
-    outline-color: rgba(134, 177, 230, 1)
+    border-color: rgba(134, 177, 230, 1)
 }
 
 .group-email-add {

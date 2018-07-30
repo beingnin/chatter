@@ -88,13 +88,9 @@
                     <div class="group-title">
                         <input type="text" class="group-email-input" value="Group Name" />
                     </div>
-                    <input type="text" class="group-email-input" placeholder="add participants email id here..." />
-                    <button class="group-email-add">+</button>
-                    <ul class="group-participants">
-                        <li>User 1</li>
-                        <li>User 2</li>
-                        <li>User 3</li>
-                    </ul>
+                    <input id="groupEmailInput" type="email" class="group-email-input" placeholder="add participants email id here..." />
+                    <button type="button" id="addGroupEmail" class="group-email-add">+</button>
+                    <ul class="group-participants"></ul>
                     <button class="create-group">Create Group</button>
                 </div>
 
@@ -110,6 +106,7 @@
     <script src="../Scripts/Cookies/jquery.cookie.js"></script>
     <script>
 
+        //Script for tab
         var switchTab = (target) => {
             let i;
             let targets = document.querySelectorAll('.tab-content');
@@ -118,6 +115,22 @@
             }
             document.getElementById(target).style.display = 'block';
         }
+
+        //Adding participants to list
+        $('#addGroupEmail').click(function () {
+            let i;
+            let addUserInput = $('#groupEmailInput');
+            let addedUsers = document.querySelectorAll('.participant');
+            let userExist = false;
+            for (i = 0 ; i < addedUsers.length; i++) {
+                if (addedUsers[i].innerHTML === addUserInput.val()) {
+                    userExist = true;
+                    break;
+                }
+            }
+            userExist ? alert('User Already Added to List') : $('.group-participants').append(`<li class="participant">${addUserInput.val()}</li>`);
+            addUserInput.val('');
+        });
 
         function Send(you, me, message) {
             var message = { FromId: me, ToId: you, Message: message };
