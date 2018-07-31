@@ -15,10 +15,10 @@
             <div id="chatbox">
                 <div id="topmenu">
                     <a class="menu" href="#" onclick="switchTab('friendslist')">
-                        <img src="Theme/Images/chat-list.png" />
+                        <img src="Theme/Images/chat.png " />
                     </a>
-                    <a class="menu" href="#" onclick="switchTab('friendslist')">
-                        <img src="Theme/Images/chat.png" />
+                    <a class="menu" href="#" onclick="switchTab('createGroupTab')">
+                        <img src="Theme/Images/chat-list.png"  />
                     </a>
                     <a class="menu" href="#" onclick="switchTab('chatSettings')">
                         <img src="Theme/Images/user--profile.png" />
@@ -33,7 +33,7 @@
                         </div>
                         <div id="friendsChat"></div>
                         <div id="createGroup">
-                            <a href="#" data-modal="createGroupModal" data-modal-title="Chatter Group">
+                            <a href="#">
                                 <img src="Theme/Images/chat-list.png" height="25"/>
                             </a>
                         </div>
@@ -64,30 +64,36 @@
 
                 <%-- SETTINGS PAGE --%>
                 <div id="chatSettings" class="tab-content" style="display: none">
-                    <h3 class="sett-title">Chatter Settings</h3>
+                    <h3 id="profileFullName" class="sett-title">Profile</h3>
                     <div class="sett-dp">
-                        <img src="Theme/Images/Defaults/profile_default.jpg"/>
+                        <img id="profileImage" src="Theme/Images/Defaults/profile_default.jpg"/>
                         <label for="btnChangeProPic">Change</label>
                         <input type="file" accept="image/*" capture="camera" name="btnChangeProPic" id="btnChangeProPic" hidden="hidden" />
+                        <p id="profileEmail">xx</p>
+                        <p id="joinedDate">xx</p>
                     </div>
                     <div class="sett-username">
-                        <h4 class="sett-title--sub">Chat Username <button>Update</button></h4>
-                        <input type="text" class="input" placeholder="Username"/>
+                        <h4 class="sett-title--sub">Name <button type="button" id="btnUpdateName">Update</button></h4>
+                        <input type="text" id="txtfName" class="input" placeholder="First Name"/>
+                        <input type="text" id="txtlName" class="input" placeholder="Last Name"/>
                     </div>
                     <div class="sett-password">
-                        <h4 class="sett-title--sub">Change Password <button>Update</button></h4>
-                        <input type="password" class="input" placeholder="Old Password"/>
-                        <input type="password" class="input" placeholder="New Password"/>
-                        <input type="password" class="input" placeholder="Confirm New Password"/>
+                        <h4 class="sett-title--sub">Change Password <button type="button" id="btnUpdatePwd">Update</button></h4>
+                        <input type="password" id="txtOldPwd" class="input" placeholder="old password"/>
+                        <input type="password" class="input" id="txtNewPwd1" placeholder="new password"/>
+                        <input type="password" class="input"  id="txtNewPwd2" placeholder="confirm password"/>
                         
                     </div>
+
+
+                    <a href="#" id="logout">Logout</a>
                 </div>
 
                 <img id="chatterImage" src="Theme/Images/Defaults/profile_default.jpg" class="floatingImg" style="display: none" />
 
-                <div id="createGroupModal" class="modal">
+                <div id="createGroupTab" class="tab-content" style="display: none">
                     <div class="group-title">
-                        <input type="text" class="group-email-input" value="Group Name" />
+                        <input type="text" class="group-email-input" placeholder="Type group name here..." />
                     </div>
                     <input id="groupEmailInput" type="email" class="group-email-input" placeholder="add participants email id here..." />
                     <button type="button" id="addGroupEmail" class="group-email-add">+</button>
@@ -115,6 +121,29 @@
                 targets[i].style.display = 'none';
             }
             document.getElementById(target).style.display = 'block';
+        }
+
+        //get data of a current chatter
+
+        function fillProfile() {
+            var id = $.cookie('ch_us_id');
+            $.ajax({
+                url: '/api/account/get?id='+id,
+                method: 'GET',
+                dataType: 'Json',
+                success: function (profile) {
+                    console.log(profile);
+                    if (profile.Success) {
+                        $('#profileEmail').text(profile.Data.Email);
+                        $('#joinedDate').text(profile.Data.JoinedOn);
+                        $('#txtfName').val(profile.Data.FirstName);
+                        $('#txtlName').val(profile.Data.LastName);
+                        $('#profileFullName').text(profile.Data.Name);
+                        $('#profileImage').attr('src', profile.Data.ProfileImagePath);
+                    }
+                }
+            });
+
         }
 
         //Adding participants to list
@@ -241,6 +270,7 @@
             $('#chat-messages').scrollTop($('#chat-messages')[0].scrollHeight);
         }
 
+
         //chatlist function
         function RefreshChatList(me) {
             $.ajax({
@@ -319,7 +349,7 @@
             }
 
             RefreshChatList($.cookie('ch_us_id'));
-
+            fillProfile();
             $("#sendmessage input").focus(function () {
                 if ($(this).val() == "Type a message...") {
                     $(this).val("");
@@ -429,6 +459,61 @@
                     })
                 }
                 reader.readAsDataURL(e.target.files[0]);
+            });
+
+            $('#btnUpdateName').click(function (e) {
+                var fNAme=$('#txtfName').val();
+                var lNAme=$('#txtlName').val();
+                if (!fNAme) {
+                    alert('First name must not be empty');
+                    $('#txtOldPwd,#txtNewPwd1,#txtNewPwd2').val('');
+                    return;
+                }
+                $.ajax({
+                    url: '/api/account/ChangeName?chatterId=' + $.cookie('ch_us_id')+'&fname='+fNAme+"&lName="+lNAme,
+                    method: 'POST',
+                    contentType: 'application/json;charset=utf-8',
+                    dataType: 'JSON',
+                    success: function (data) {
+                        console.log(data);
+                        if (data.Success) {
+                            alert(data.Response);
+                        }
+                        else {
+                            alert(data.Response);
+                        }
+                        $('#txtOldPwd,#txtNewPwd1,#txtNewPwd2').val('');
+                    }
+                })
+
+
+            });
+
+            $('#btnUpdatePwd').click(function (e) {
+                var old = $('#txtOldPwd').val();
+                var new1 = $('#txtNewPwd1').val();
+                var new2 = $('#txtNewPwd2').val();
+                if (new1!==new2) {
+                    alert('Your passwords do not match. Try again');
+                    return;
+                }
+                $.ajax({
+                    url: '/api/account/ChangePassword?chatterId=' + $.cookie('ch_us_id') + '&oldPwd=' + old + "&newPwd=" + new2,
+                    method: 'POST',
+                    contentType: 'application/json;charset=utf-8',
+                    dataType: 'JSON',
+                    success: function (data) {
+                        console.log(data);
+                        if (data.Success) {
+                            alert(data.Response);
+                        }
+                        else {
+                            alert(data.Response);
+                        }
+                    }
+                })
+
+
             });
 
             $.connection.hub.start()

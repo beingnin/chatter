@@ -125,7 +125,7 @@ namespace WebApplication2.Models
                 try
                 {
                     Chatter user = db.Chatters.Find(id);
-                    return new Message<object>(true, "Successfully retrieved data", "Chatter > Get", new { Name = user.FirstName + " " + user.MiddleName + " " + user.LastName, Email = user.Email, ChatterId = user.ChatterId,user.FirstName,user.LastName,user.ProfileImagePath });
+                    return new Message<object>(true, "Successfully retrieved data", "Chatter > Get", new { Name = user.FirstName + " " + user.MiddleName + " " + user.LastName, Email = user.Email, ChatterId = user.ChatterId,user.FirstName,user.LastName,user.ProfileImagePath,JoinedOn=user.CreatedDate.ToString("dd MMM yyyy") });
                 }
                 catch (Exception ex)
                 {

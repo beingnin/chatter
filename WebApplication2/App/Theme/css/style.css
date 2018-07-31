@@ -5,7 +5,9 @@
 
 button, a {
     cursor: pointer;
+    outline: none;
 }
+
 
 body {
     background: #f0f1f2;
@@ -41,6 +43,10 @@ body {
     left: 50%;
     transform: translateX(-50%);
 }
+#createGroupTab {
+    padding: 10px;
+    height: 100%;
+}
 
 #friends {
     height: calc(100% - 60px);
@@ -65,12 +71,20 @@ body {
 
 .sett-dp {
     text-align: center;
-    margin: 25px 0 15px;
+    margin: 15px 0 15px;
+}
+.sett-dp #profileEmail {
+    color: #86b1e6;
+    font-size: 16px;
+    margin-top: 10px;
+}
+.sett-dp #joinedDate {
+    color: #ccc;
 }
 
     .sett-dp > img {
         border-radius: 50%;
-        width: 125px;
+        width: 115px;
         object-fit: cover;
     }
 
@@ -85,15 +99,30 @@ body {
         color: white;
         margin-top: 5px;
     }
-
+#logout {
+    width: 92%;
+    margin: 0 auto;
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    color: #fbfbfb;
+    font-size: 14px;
+    background-color: #F44336;
+    padding: 8px 5px;
+    border-radius: 3px;
+}
 .sett-username, .sett-password {
     padding: 10px;
+}
+.sett-password {
+    margin-top: 30px;
 }
 
 .sett-title--sub {
     margin-bottom: 5px;
     color: #9E9E9E;
 }
+
 
 #chatSettings .input {
     padding: 6px 12px;
@@ -109,9 +138,19 @@ body {
     cursor: text;
 }
 
+
     #chatSettings .input:focus {
         outline-color: rgb(134, 177, 230);
     }
+
+.sett-username > input {
+width: 48% !important;
+    display: inline !important;
+    float: left;
+}
+.sett-username > input:last-child {
+    float: right;
+}
 
 #chatSettings button {
     border: none;
@@ -643,7 +682,7 @@ div.message.right .corner {
 }
 
 .group-participants {
-    height: calc(100% - 160px);
+    height: calc(100% - 260px);
     list-style: none;
     box-sizing: border-box;
     margin: 15px 0;
