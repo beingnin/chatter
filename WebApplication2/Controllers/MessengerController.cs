@@ -45,5 +45,12 @@ namespace WebApplication2.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Bad Request");
             }
         }
+
+        [HttpGet]
+        public HttpResponseMessage GetConnections(long id)
+        {
+            var cons = Hubs.Connections.GetConnections(id);
+            return Request.CreateResponse<List<string>>(HttpStatusCode.OK,cons);
+        }
     }
 }

@@ -29,6 +29,7 @@ namespace WebApplication2.Hubs
                 else
                 {
                     connectionIds = new List<string>();
+                    connectionIds.Add(Context.ConnectionId);
                     Connections.Active.Add(userid, connectionIds);
                 }
                 List<string> result = Connections.GetConnections(userid);
