@@ -25,6 +25,8 @@ namespace WebApplication2.Models
         public string HashedPasword { get; set; }
         public DateTime CreatedDate { get; set; }
         public string ProfileImagePath { get; set; }
+        public bool IsVerified { get; set; }
+        public Guid VerificationCode { get; set; }
         [NotMapped]
         public string FullName
         {
@@ -64,9 +66,19 @@ namespace WebApplication2.Models
                         this.HashedPasword = Helper.Cryptor.Hash(this.Password);
                         this.CreatedDate = DateTime.UtcNow;
                         this.ProfileImagePath = @"Theme/Images/Defaults/profile_default.jpg";
+                        this.VerificationCode = Guid.NewGuid();
                         db.Chatters.Add(this);
                         db.SaveChanges();
                         db.Close();
+
+                        //Sending Email
+                        string baseaddress = "http://localhost:57389/";
+                        string body = File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + @"\Email Templates\confirmation.html");
+                        body = body.Replace("{^fullname^}", this.FirstName);
+                        body = body.Replace("{^confirmationlink^}",baseaddress+"/App/Account/Verify?uid=" +this.VerificationCode.ToString());
+                        Helper.Emailer.SendAsync(this.Email, "Welcome to doKonnect", body);
+
+
                         return new Message<object>(true, "User registered succesfully", "Chatter > Register", null);
                     }
                 }
@@ -88,7 +100,7 @@ namespace WebApplication2.Models
                 try
                 {
                     string hashedPassword = Helper.Cryptor.Hash(this.Password);
-                    long count = db.Chatters.LongCount(x => x.Email == this.Email && x.HashedPasword == hashedPassword);
+                    long count = db.Chatters.LongCount(x => x.Email == this.Email && x.HashedPasword == hashedPassword && this.IsVerified);
                     db.Close();
                     return count == 1;
                 }
@@ -102,6 +114,8 @@ namespace WebApplication2.Models
                 }
             }
         }
+
+
 
         public Message<object> Get(string email)
         {
