@@ -214,6 +214,7 @@
     <Content Include="App\Account\fonts\montserrat\OFL.txt" />
     <Content Include="App\Account\index.html" />
     <Content Include="App\Account\js\main.js" />
+    <Content Include="App\Account\Logout.aspx" />
     <Content Include="App\Account\SignIn.aspx" />
     <Content Include="App\index.html" />
     <Content Include="App\Messenger.aspx" />
@@ -383,6 +384,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App\Account\Logout.aspx.cs">
+      <DependentUpon>Logout.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="App\Account\Logout.aspx.designer.cs">
+      <DependentUpon>Logout.aspx</DependentUpon>
+    </Compile>
     <Compile Include="App\Account\SignIn.aspx.cs">
       <DependentUpon>SignIn.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

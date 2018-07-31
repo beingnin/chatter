@@ -86,7 +86,7 @@
                     </div>
 
 
-                    <a href="#" id="logout">Logout</a>
+                    <a  href="/App/Account/Logout"  id="logout">Logout</a>
                 </div>
 
                 <img id="chatterImage" src="Theme/Images/Defaults/profile_default.jpg" class="floatingImg" style="display: none" />
@@ -135,7 +135,7 @@
                     console.log(profile);
                     if (profile.Success) {
                         $('#profileEmail').text(profile.Data.Email);
-                        $('#joinedDate').text(profile.Data.JoinedOn);
+                        $('#joinedDate').text("joined on "+profile.Data.JoinedOn);
                         $('#txtfName').val(profile.Data.FirstName);
                         $('#txtlName').val(profile.Data.LastName);
                         $('#profileFullName').text(profile.Data.Name);
