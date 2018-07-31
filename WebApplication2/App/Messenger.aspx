@@ -6,105 +6,107 @@
 <head runat="server">
     <title>Messenger</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="Theme/css/style.css" />
+    <link rel="stylesheet" href="Theme/css/style.css?v=310718" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css' />
 </head>
 <body style="background: #d6d9dc">
     <%--<form id="form1" runat="server">--%>
-        <div class="chatter-wrap">
-            <div id="chatbox">
-                <div id="topmenu">
-                    <a class="menu" href="#" onclick="switchTab('friendslist')">
-                        <img src="Theme/Images/chat.png " />
-                    </a>
-                    <a class="menu" href="#" onclick="switchTab('createGroupTab')">
-                        <img src="Theme/Images/chat-list.png"  />
-                    </a>
-                    <a class="menu" href="#" onclick="switchTab('chatSettings')">
-                        <img src="Theme/Images/user--profile.png" />
-                    </a>
-                </div>
+    <div class="chatter-wrap">
+        <div id="chatbox">
+            <div id="topmenu">
+                <a class="menu" href="#" onclick="switchTab('friendslist')">
+                    <img src="Theme/Images/chat.png " />
+                </a>
+                <a class="menu" href="#" onclick="switchTab('createGroupTab')">
+                    <img src="Theme/Images/chat-list.png" />
+                </a>
+                <a class="menu" href="#" onclick="switchTab('chatSettings')">
+                    <img src="Theme/Images/user--profile.png" />
+                </a>
+            </div>
 
-                <%-- MAIN CHAT SCREEN --%>
-                <div id="friendslist" class="tab-content">
-                    <div id="friends">
-                        <div id="search">
-                            <input type="text" autocomplete="off" id="searchfield" placeholder="Search by email address" />
-                        </div>
-                        <div id="friendsChat"></div>
-                        <div id="createGroup">
-                            <a href="#">
-                                <img src="Theme/Images/chat-list.png" height="25"/>
-                            </a>
-                        </div>
+            <%-- MAIN CHAT SCREEN --%>
+            <div id="friendslist" class="tab-content">
+                <div id="friends">
+                    <div id="search">
+                        <input type="text" autocomplete="off" id="searchfield" placeholder="Search by email address" />
+                    </div>
+                    <div id="friendsChat"></div>
+                    <div id="createGroup">
+                        <a href="#">
+                            <img src="Theme/Images/chat-list.png" height="25" />
+                        </a>
                     </div>
                 </div>
+            </div>
 
-                <%-- INDIVIDUAL CHAT SCREEN --%>
-                <div id="chatview" class="p1">
-                    <div id="profile">
+            <%-- INDIVIDUAL CHAT SCREEN --%>
+            <div id="chatview" class="p1">
+                <div id="profile">
 
-                        <div id="close">
-                            <div class="cy"></div>
-                            <div class="cx"></div>
-                        </div>
-
-                        <p id="chatName">--Chatter--</p>
-                        <span id="chatDesc">--description--</span>
-                    </div>
-                    <div id="chat-messages">
+                    <div id="close">
+                        <div class="cy"></div>
+                        <div class="cx"></div>
                     </div>
 
-                    <div id="sendmessage">
-                        <input id="message" autocomplete="off" type="text" placeholder="Type a message..." />
-                        <button type="button" id="send" style="display: none"></button>
-                    </div>
-
+                    <p id="chatName">--Chatter--</p>
+                    <span id="chatDesc">--description--</span>
+                </div>
+                <div id="chat-messages">
                 </div>
 
-                <%-- SETTINGS PAGE --%>
-                <div id="chatSettings" class="tab-content" style="display: none">
-                    <h3 id="profileFullName" class="sett-title">Profile</h3>
-                    <div class="sett-dp">
-                        <img id="profileImage" src="Theme/Images/Defaults/profile_default.jpg"/>
-                        <label for="btnChangeProPic">Change</label>
-                        <input type="file" accept="image/*" capture="camera" name="btnChangeProPic" id="btnChangeProPic" hidden="hidden" />
-                        <p id="profileEmail">xx</p>
-                        <p id="joinedDate">xx</p>
-                    </div>
-                    <div class="sett-username">
-                        <h4 class="sett-title--sub">Name <button type="button" id="btnUpdateName">Update</button></h4>
-                        <input type="text" id="txtfName" class="input" placeholder="First Name"/>
-                        <input type="text" id="txtlName" class="input" placeholder="Last Name"/>
-                    </div>
-                    <div class="sett-password">
-                        <h4 class="sett-title--sub">Change Password <button type="button" id="btnUpdatePwd">Update</button></h4>
-                        <input type="password" id="txtOldPwd" class="input" placeholder="old password"/>
-                        <input type="password" class="input" id="txtNewPwd1" placeholder="new password"/>
-                        <input type="password" class="input"  id="txtNewPwd2" placeholder="confirm password"/>
-                        
-                    </div>
-
-
-                    <a  href="/App/Account/Logout"  id="logout">Logout</a>
+                <div id="sendmessage">
+                    <input id="message" autocomplete="off" type="text" placeholder="Type a message..." />
+                    <button type="button" id="send" style="display: none"></button>
                 </div>
-
-                <img id="chatterImage" src="Theme/Images/Defaults/profile_default.jpg" class="floatingImg" style="display: none" />
-
-                <div id="createGroupTab" class="tab-content" style="display: none">
-                    <div class="group-title">
-                        <input type="text" class="group-email-input" placeholder="Type group name here..." />
-                    </div>
-                    <input id="groupEmailInput" type="email" class="group-email-input" placeholder="add participants email id here..." />
-                    <button type="button" id="addGroupEmail" class="group-email-add">+</button>
-                    <ul class="group-participants"></ul>
-                    <button class="create-group">Create Group</button>
-                </div>
-
-
 
             </div>
+
+            <%-- SETTINGS PAGE --%>
+            <div id="chatSettings" class="tab-content" style="display: none">
+                <h3 id="profileFullName" class="sett-title">Profile</h3>
+                <div class="sett-dp">
+                    <img id="profileImage" src="Theme/Images/Defaults/profile_default.jpg" />
+                    <label for="btnChangeProPic">Change</label>
+                    <input type="file" accept="image/*" name="btnChangeProPic" id="btnChangeProPic" hidden="hidden" />
+                    <p id="profileEmail">xx</p>
+                    <p id="joinedDate">xx</p>
+                </div>
+                <div class="sett-username">
+                    <h4 class="sett-title--sub">Name
+                        <button type="button" id="btnUpdateName">Update</button></h4>
+                    <input type="text" id="txtfName" class="input" placeholder="First Name" />
+                    <input type="text" id="txtlName" class="input" placeholder="Last Name" />
+                </div>
+                <div class="sett-password">
+                    <h4 class="sett-title--sub">Change Password
+                        <button type="button" id="btnUpdatePwd">Update</button></h4>
+                    <input type="password" id="txtOldPwd" class="input" placeholder="old password" />
+                    <input type="password" class="input" id="txtNewPwd1" placeholder="new password" />
+                    <input type="password" class="input" id="txtNewPwd2" placeholder="confirm password" />
+
+                </div>
+
+
+                <a href="/App/Account/Logout" id="logout">Logout</a>
+            </div>
+
+            <img id="chatterImage" src="Theme/Images/Defaults/profile_default.jpg" class="floatingImg" style="display: none" />
+
+            <div id="createGroupTab" class="tab-content" style="display: none">
+                <div class="group-title">
+                    <input type="text" class="group-email-input" placeholder="Type group name here..." />
+                </div>
+                <input id="groupEmailInput" type="email" class="group-email-input" placeholder="add participants email id here..." />
+                <button type="button" id="addGroupEmail" class="group-email-add">+</button>
+                <ul class="group-participants"></ul>
+                <button class="create-group">Create Group</button>
+            </div>
+
+
+
         </div>
+    </div>
     <%--</form>--%>
     <%--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>--%>
     <script src="Theme/js/jquery.min.js"></script>
@@ -128,14 +130,14 @@
         function fillProfile() {
             var id = $.cookie('ch_us_id');
             $.ajax({
-                url: '/api/account/get?id='+id,
+                url: '/api/account/get?id=' + id,
                 method: 'GET',
                 dataType: 'Json',
                 success: function (profile) {
                     console.log(profile);
                     if (profile.Success) {
                         $('#profileEmail').text(profile.Data.Email);
-                        $('#joinedDate').text("joined on "+profile.Data.JoinedOn);
+                        $('#joinedDate').text("joined on " + profile.Data.JoinedOn);
                         $('#txtfName').val(profile.Data.FirstName);
                         $('#txtlName').val(profile.Data.LastName);
                         $('#profileFullName').text(profile.Data.Name);
@@ -318,7 +320,7 @@
         $(document).ready(function () {
 
             // CHATTER MODAL START FUNCTION
-            $('[data-modal]').click(function() {
+            $('[data-modal]').click(function () {
                 let modalTargetId = $(this).attr('data-modal');
                 let modalTitle = $(this).attr('data-modal-title') || 'Chatter Modal';
                 let html = `<div class="chatter-modal-wrapper">
@@ -443,7 +445,7 @@
                 var reader = new FileReader();
                 reader.onload = function (result) {
                     var b64 = result.target.result.split(',')[1];
-                    console.log(b64); 
+                    console.log(b64);
                     $.ajax({
                         url: '/api/account/UpdateProfilePic?chatterId=' + $.cookie('ch_us_id'),
                         method: 'POST',
@@ -462,15 +464,15 @@
             });
 
             $('#btnUpdateName').click(function (e) {
-                var fNAme=$('#txtfName').val();
-                var lNAme=$('#txtlName').val();
+                var fNAme = $('#txtfName').val();
+                var lNAme = $('#txtlName').val();
                 if (!fNAme) {
                     alert('First name must not be empty');
                     $('#txtOldPwd,#txtNewPwd1,#txtNewPwd2').val('');
                     return;
                 }
                 $.ajax({
-                    url: '/api/account/ChangeName?chatterId=' + $.cookie('ch_us_id')+'&fname='+fNAme+"&lName="+lNAme,
+                    url: '/api/account/ChangeName?chatterId=' + $.cookie('ch_us_id') + '&fname=' + fNAme + "&lName=" + lNAme,
                     method: 'POST',
                     contentType: 'application/json;charset=utf-8',
                     dataType: 'JSON',
@@ -493,7 +495,7 @@
                 var old = $('#txtOldPwd').val();
                 var new1 = $('#txtNewPwd1').val();
                 var new2 = $('#txtNewPwd2').val();
-                if (new1!==new2) {
+                if (new1 !== new2) {
                     alert('Your passwords do not match. Try again');
                     return;
                 }
