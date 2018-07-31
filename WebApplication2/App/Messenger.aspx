@@ -10,7 +10,7 @@
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css' />
 </head>
 <body style="background: #d6d9dc">
-    <form id="form1" runat="server">
+    <%--<form id="form1" runat="server">--%>
         <div class="chatter-wrap">
             <div id="chatbox">
                 <div id="topmenu">
@@ -67,7 +67,8 @@
                     <h3 class="sett-title">Chatter Settings</h3>
                     <div class="sett-dp">
                         <img src="Theme/Images/Defaults/profile_default.jpg"/>
-                        <a href="#">Change</a>
+                        <label for="btnChangeProPic">Change</label>
+                        <input type="file" accept="image/*" capture="camera" name="btnChangeProPic" id="btnChangeProPic" hidden="hidden" />
                     </div>
                     <div class="sett-username">
                         <h4 class="sett-title--sub">Chat Username <button>Update</button></h4>
@@ -98,7 +99,7 @@
 
             </div>
         </div>
-    </form>
+    <%--</form>--%>
     <%--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>--%>
     <script src="Theme/js/jquery.min.js"></script>
     <script src="/Scripts/jquery.signalR-2.2.2.min.js"></script>
@@ -401,6 +402,33 @@
                 var you = Number($('#chat-messages').attr('data-you-id'));
                 var me = Number($.cookie('ch_us_id'));
                 Send(you, me, message);
+            });
+
+            $('#btnChangeProPic').change(function (e) {
+
+                if (e.target.files[0].size > 1048576) {
+                    alert('Please choose a file less than 1 Mb in size');
+                    return;
+                }
+                var reader = new FileReader();
+                reader.onload = function (result) {
+                    var b64 = result.target.result.split(',')[1];
+                    console.log(b64); 
+                    $.ajax({
+                        url: '/api/account/UpdateProfilePic?chatterId=' + $.cookie('ch_us_id'),
+                        method: 'POST',
+                        contentType: 'application/json;charset=utf-8',
+                        dataType: 'JSON',
+                        data: JSON.stringify(b64),
+                        success: function (data) {
+                            console.log(data);
+                            if (data.Success) {
+                                $('.sett-dp img').attr('src', result.target.result);
+                            }
+                        }
+                    })
+                }
+                reader.readAsDataURL(e.target.files[0]);
             });
 
             $.connection.hub.start()
