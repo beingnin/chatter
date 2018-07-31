@@ -212,16 +212,39 @@
     <Content Include="App\Account\fonts\font-awesome-4.7.0\fonts\fontawesome-webfont.svg" />
     <Content Include="App\Account\fonts\font-awesome-4.7.0\HELP-US-OUT.txt" />
     <Content Include="App\Account\fonts\montserrat\OFL.txt" />
+    <Content Include="App\Account\images\icons\favicon.ico" />
+    <Content Include="App\Account\images\img-01.png" />
     <Content Include="App\Account\index.html" />
     <Content Include="App\Account\js\main.js" />
     <Content Include="App\Account\Logout.aspx" />
     <Content Include="App\Account\SignIn.aspx" />
+    <Content Include="App\Account\vendor\animate\animate.css" />
+    <Content Include="App\Account\vendor\bootstrap\css\bootstrap-grid.css" />
+    <Content Include="App\Account\vendor\bootstrap\css\bootstrap-grid.min.css" />
+    <Content Include="App\Account\vendor\bootstrap\css\bootstrap-reboot.css" />
+    <Content Include="App\Account\vendor\bootstrap\css\bootstrap-reboot.min.css" />
+    <Content Include="App\Account\vendor\bootstrap\css\bootstrap.css" />
+    <Content Include="App\Account\vendor\bootstrap\css\bootstrap.min.css" />
+    <Content Include="App\Account\vendor\bootstrap\js\bootstrap.js" />
+    <Content Include="App\Account\vendor\bootstrap\js\bootstrap.min.js" />
+    <Content Include="App\Account\vendor\bootstrap\js\popper.js" />
+    <Content Include="App\Account\vendor\bootstrap\js\popper.min.js" />
+    <Content Include="App\Account\vendor\bootstrap\js\tooltip.js" />
+    <Content Include="App\Account\vendor\css-hamburgers\hamburgers.css" />
+    <Content Include="App\Account\vendor\css-hamburgers\hamburgers.min.css" />
+    <Content Include="App\Account\vendor\jquery\jquery-3.2.1.min.js" />
+    <Content Include="App\Account\vendor\select2\select2.css" />
+    <Content Include="App\Account\vendor\select2\select2.js" />
+    <Content Include="App\Account\vendor\select2\select2.min.css" />
+    <Content Include="App\Account\vendor\select2\select2.min.js" />
+    <Content Include="App\Account\vendor\tilt\tilt.jquery.min.js" />
     <Content Include="App\index.html" />
     <Content Include="App\Messenger.aspx" />
     <Content Include="App\Theme\css\style.css" />
     <Content Include="App\Theme\Images\chat-list.png" />
     <Content Include="App\Theme\Images\chat.png" />
     <Content Include="App\Theme\Images\Defaults\profile_default.jpg" />
+    <Content Include="App\Theme\Images\Defaults\profile_default.png" />
     <Content Include="App\Theme\Images\timeline1.png" />
     <Content Include="App\Theme\Images\user--profile.png" />
     <Content Include="App\Theme\js\app.js" />
@@ -309,6 +332,13 @@
     <Content Include="App\Account\fonts\poppins\Poppins-SemiBoldItalic.ttf" />
     <Content Include="App\Account\fonts\poppins\Poppins-Thin.ttf" />
     <Content Include="App\Account\fonts\poppins\Poppins-ThinItalic.ttf" />
+    <Content Include="App\Account\vendor\bootstrap\css\bootstrap-grid.css.map" />
+    <Content Include="App\Account\vendor\bootstrap\css\bootstrap-grid.min.css.map" />
+    <Content Include="App\Account\vendor\bootstrap\css\bootstrap-reboot.css.map" />
+    <Content Include="App\Account\vendor\bootstrap\css\bootstrap-reboot.min.css.map" />
+    <Content Include="App\Account\vendor\bootstrap\css\bootstrap.css.map" />
+    <Content Include="App\Account\vendor\bootstrap\css\bootstrap.min.css.map" />
+    <None Include="Properties\PublishProfiles\chat-app.pubxml" />
     <None Include="Properties\PublishProfiles\signalrTest.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="forgetter.aspx" />
@@ -475,8 +505,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App\Account\images\" />
-    <Folder Include="App\Account\vendor\" />
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
