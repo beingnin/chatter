@@ -11,10 +11,10 @@ namespace WebApplication2.Helper
     public static class Emailer
     {
         private const short port= 587;
-        private const string username = "nithinbchabdran@gmail.com";
-        private const string password = "cisnin992";
+        private const string username = "noreplydokonnect@gmail.comm";
+        private const string password = "DoKonnect123";
         private const string host = "smtp.gmail.com";
-        private const string from= "nithinbchabdran@gmail.com";
+        private const string from= "noreplydokonnect@gmail.com";
         private static SmtpClient client = new SmtpClient();
         public static Task<bool> SendAsync(string to,string subject,string body)
         {

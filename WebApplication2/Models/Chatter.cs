@@ -72,10 +72,10 @@ namespace WebApplication2.Models
                         db.Close();
 
                         //Sending Email
-                        string baseaddress = "http://localhost:57389/";
+                        string baseaddress = System.Configuration.ConfigurationManager.AppSettings["baseurl"];
                         string body = File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + @"\Email Templates\confirmation.html");
                         body = body.Replace("{^fullname^}", this.FirstName);
-                        body = body.Replace("{^confirmationlink^}",baseaddress+"/App/Account/Verify?uid=" +this.VerificationCode.ToString());
+                        body = body.Replace("{^confirmationlink^}",baseaddress+"App/Account/Verify?uid=" +this.VerificationCode.ToString());
                         Helper.Emailer.SendAsync(this.Email, "Welcome to doKonnect", body);
 
 
@@ -100,9 +100,9 @@ namespace WebApplication2.Models
                 try
                 {
                     string hashedPassword = Helper.Cryptor.Hash(this.Password);
-                    long count = db.Chatters.LongCount(x => x.Email == this.Email && x.HashedPasword == hashedPassword && this.IsVerified);
+                    var user = db.Chatters.Where(x => x.Email == this.Email && x.HashedPasword == hashedPassword && x.IsVerified).FirstOrDefault();
                     db.Close();
-                    return count == 1;
+                    return user!=null;
                 }
                 catch (Exception ex)
                 {
