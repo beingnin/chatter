@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="Theme/css/style.css?v=310718" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css' />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet"/>
 </head>
 <body style="background: #d6d9dc">
     <%--<form id="form1" runat="server">--%>
@@ -113,6 +114,7 @@
     <script src="/Scripts/jquery.signalR-2.2.2.min.js"></script>
     <script src="/signalr/hubs" type="text/javascript"></script>
     <script src="../Scripts/Cookies/jquery.cookie.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <script>
 
         //Script for tab
@@ -126,11 +128,28 @@
         }
 
         //Toaster function
-        //type - Success, Error, Warning, Info
+        //type - success, error, warning or info
         //message - message to be shown
-        //pos - position of the toaster
+        //pos - top or bottom
         var toast = (type, message, pos) => {
-            alert(message);
+            toastr[type](message)
+            toastr.options = {
+                "closeButton": true,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": false,
+                "positionClass": "toast-top-center",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "50000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }
         }
 
         //get data of a current chatter
