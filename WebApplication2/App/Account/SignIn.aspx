@@ -28,11 +28,12 @@
     <div class="limiter">
         <div class="container-login100">
             <div class="wrap-login100">
-                <div class="login100-pic js-tilt" data-tilt>
+                <div class="login100-pic js-tilt">
                     <img src="images/img-01.png" alt="IMG" />
                 </div>
 
                 <form id="frmLogin" runat="server" class="login100-form validate-form">
+                    <div class="logo"><img src="../Theme/Images/doKonnect.png" height="70"/></div>
                     <span class="login100-form-title">Member Login
                     </span>
 
@@ -64,7 +65,7 @@
                         </a>
                     </div>
 
-                    <div class="text-center p-t-136">
+                    <div class="text-center p-t-70">
                         <a class="txt2" id="btnSignUp" href="#">Not yet joined? Register
 							<i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
                         </a>
@@ -74,6 +75,7 @@
 
                 <%--//Register--%>
                 <div id="frmRegister" style="display: none" runat="server" class="login100-form ">
+                    <div class="logo"><img src="../Theme/Images/doKonnect.png" height="70"/></div>
                     <span class="login100-form-title">Create Account
                     </span>
                     <div class="wrap-input100" data-validate="First name is required">

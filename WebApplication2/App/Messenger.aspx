@@ -15,7 +15,7 @@
     <div class="chatter-wrap">
         <div id="chatbox">
             <div id="topmenu">
-                <a class="menu" href="#" onclick="switchTab('friendslist')">
+                <a class="menu active" href="#" onclick="switchTab('friendslist')">
                     <img src="Theme/Images/chat.png " />
                 </a>
                 <a class="menu" href="#" onclick="switchTab('createGroupTab')">
@@ -33,9 +33,9 @@
                         <input type="text" autocomplete="off" id="searchfield" placeholder="Search by email address" />
                     </div>
                     <div id="friendsChat"></div>
-                    <div id="createGroup">
+                    <div id="addChat">
                         <a href="#">
-                            <img src="Theme/Images/chat-list.png" height="25" />
+                            <img src="Theme/Images/add-user.png" height="20" />
                         </a>
                     </div>
                 </div>
@@ -46,8 +46,11 @@
                 <div id="profile">
 
                     <div id="close">
-                        <div class="cy"></div>
-                        <div class="cx"></div>
+                        <img src="Theme/Images/back.png" width="20"/>
+                    </div>
+
+                    <div id="more">
+                        <img src="Theme/Images/more.png" width="20"/>
                     </div>
 
                     <p id="chatName">--Chatter--</p>
@@ -58,7 +61,7 @@
 
                 <div id="sendmessage">
                     <input id="message" autocomplete="off" type="text" placeholder="Type a message..." />
-                    <button type="button" id="send" style="display: none"></button>
+                    <button type="button" id="send"></button>
                 </div>
 
             </div>
@@ -75,21 +78,21 @@
                 </div>
                 <div class="sett-username">
                     <h4 class="sett-title--sub">Name
-                        <button type="button" id="btnUpdateName">Update</button></h4>
+                        <button type="button" id="btnUpdateName">
+                            <img src="Theme/Images/save.png" height="12"/>&nbsp;Update</button></h4>
                     <input type="text" id="txtfName" class="input" placeholder="First Name" />
                     <input type="text" id="txtlName" class="input" placeholder="Last Name" />
                 </div>
                 <div class="sett-password">
                     <h4 class="sett-title--sub">Change Password
-                        <button type="button" id="btnUpdatePwd">Update</button></h4>
+                        <button type="button" id="btnUpdatePwd"><img src="Theme/Images/save.png" height="12"/>&nbsp;Update</button></h4>
                     <input type="password" id="txtOldPwd" class="input" placeholder="old password" />
                     <input type="password" class="input" id="txtNewPwd1" placeholder="new password" />
                     <input type="password" class="input" id="txtNewPwd2" placeholder="confirm password" />
 
                 </div>
-
-
                 <a href="/App/Account/Logout" id="logout">Logout</a>
+                <div class="sett-logo"><img src="Theme/Images/doKonnect.png" height="35"/></div>
             </div>
 
             <img id="chatterImage" src="Theme/Images/Defaults/profile_default.jpg" class="floatingImg" style="display: none" />
@@ -119,6 +122,7 @@
 
         //Script for tab
         var switchTab = (target) => {
+            $('#topmenu > a').removeClass('active');
             let i;
             let targets = document.querySelectorAll('.tab-content');
             for (i = 0 ; i < targets.length; i++) {
@@ -126,6 +130,7 @@
             }
             document.getElementById(target).style.display = 'block';
         }
+        $('#topmenu').children('a').click(function () { $(this).addClass('active') });
 
         //Toaster function
         //type - success, error, warning or info

@@ -35,7 +35,6 @@ body {
 #chatbox {
     width: 320px;
     background: #fff;
-    border-radius: 6px;
     overflow: hidden;
     height: 94vh;
     position: absolute;
@@ -68,10 +67,14 @@ body {
     text-align: center;
     color: #8c8c8c;
 }
+.sett-logo {
+    text-align: center;
+        padding: 10px 0;
+}
 
 .sett-dp {
     text-align: center;
-    margin: 15px 0 15px;
+    margin: 10px 0 15px;
 }
 .sett-dp #profileEmail {
     color: #86b1e6;
@@ -84,7 +87,7 @@ body {
 
     .sett-dp > img {
         border-radius: 50%;
-        width: 115px;
+        width: 100px;
         object-fit: cover;
     }
 
@@ -157,7 +160,6 @@ width: 48% !important;
     background-color: #ffffff;
     color: #86b1e6;
     float: right;
-    text-transform: lowercase;
 }
 
 #topmenu {
@@ -171,6 +173,7 @@ width: 48% !important;
         text-align: center;
         padding: 16px 0;
         cursor: pointer;
+        border-bottom: 3px solid transparent;
     }
 
     #topmenu > .menu > img {
@@ -180,6 +183,9 @@ width: 48% !important;
 
     #topmenu > .menu:hover > img, #topmenu > .menu.active > img {
         filter: none;
+    }
+    #topmenu > .menu.active {
+        border-bottom: 3px solid #5994dd;
     }
 /*#topmenu span.friends{margin-bottom:-1px;}
 #topmenu span.chats{background-position:-95px 25px; cursor:pointer;}
@@ -269,7 +275,7 @@ width: 48% !important;
     }
 
 #search {
-    background: #e3e9ed url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/search.png") -11px 0 no-repeat;
+    background: #e3e9ed url('../Images/search.png') -11px 0 no-repeat;
     height: 60px;
     width: 100%;
     position: absolute;
@@ -293,11 +299,17 @@ width: 48% !important;
         outline: 0;
     }
 
-#createGroup {
+#addChat {
     position: absolute;
-    bottom: 18px;
-    right: 23px;
+    bottom: 10px;
+    right: 18px;
     z-index: 9999;
+    background-color: hsl(204, 22%, 87%);
+    height: 40px;
+    width: 40px;
+    border-radius: 20px;
+    text-align: center;
+    line-height: 50px;
 }
 
 #chatview {
@@ -319,7 +331,7 @@ width: 48% !important;
 }
 
 .p1 #profile {
-    background: #fff url('../Images/timeline1.png') 0 0 no-repeat;
+    background: #fff url('../Images/chat-header.png') 0 0 no-repeat;
     background-size: cover;
 }
 
@@ -389,9 +401,8 @@ width: 48% !important;
     }
 
     #chat-messages div.message {
-        padding: 0 0 30px 58px;
+        padding: 0 10px 30px 58px;
         clear: both;
-        margin-bottom: 45px;
     }
 
         #chat-messages div.message.right {
@@ -414,7 +425,7 @@ width: 48% !important;
     }
 
 .message .bubble {
-    background: #f0f4f7;
+    background: #ebf0f4;
     font-size: 13px;
     font-weight: 600;
     padding: 12px 13px;
@@ -422,6 +433,8 @@ width: 48% !important;
     color: #8495a3;
     position: relative;
     float: left;
+    margin-bottom: 20px;
+    min-width: 40px;
 }
 
 #chat-messages div.message.right .bubble {
@@ -449,7 +462,7 @@ div.message.right .corner {
     font-size: 11px;
     position: absolute;
     right: 0;
-    bottom: -22px;
+    bottom: -15px;
 }
 
 #sendmessage {
@@ -478,13 +491,15 @@ div.message.right .corner {
         }
 
     #sendmessage button {
-        background: #fff url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/send.png") 0 -41px no-repeat;
-        width: 30px;
-        height: 30px;
+        background: url(../Images/send-button.png) 13px 11px no-repeat;
+        width: 37px;
+        height: 37px;
         position: absolute;
         right: 15px;
-        top: 23px;
+        top: 10px;
         border: none;
+        background-color: hsl(204, 22%, 87%);
+        border-radius: 23px;
     }
 
         #sendmessage button:hover {
@@ -498,9 +513,18 @@ div.message.right .corner {
 
 #close {
     position: absolute;
-    top: 8px;
+    top: 15px;
     opacity: 0.8;
-    right: 10px;
+    left: 15px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+#more {
+    position: absolute;
+    top: 15px;
+    opacity: 0.8;
+    right: 15px;
     width: 20px;
     height: 20px;
     cursor: pointer;
@@ -590,7 +614,6 @@ div.message.right .corner {
 
 #chatview, #sendmessage {
     overflow: hidden;
-    border-radius: 6px;
 }
 
 /* CHATTER MODAL */

@@ -239,6 +239,14 @@
     <Content Include="App\Account\vendor\select2\select2.min.js" />
     <Content Include="App\Account\vendor\tilt\tilt.jquery.min.js" />
     <Content Include="App\Account\Verify.aspx" />
+    <Content Include="App\Theme\Images\add-user.png" />
+    <Content Include="App\Theme\Images\back.png" />
+    <Content Include="App\Theme\Images\chat-header.png" />
+    <Content Include="App\Theme\Images\doKonnect.png" />
+    <Content Include="App\Theme\Images\more.png" />
+    <Content Include="App\Theme\Images\save.png" />
+    <Content Include="App\Theme\Images\search.png" />
+    <Content Include="App\Theme\Images\send-button.png" />
     <Content Include="Email Templates\forgetpassword.html" />
     <Content Include="Email Templates\invitation.html" />
     <Content Include="Email Templates\confirmation.html" />
