@@ -125,6 +125,14 @@
             document.getElementById(target).style.display = 'block';
         }
 
+        //Toaster function
+        //type - Success, Error, Warning, Info
+        //message - message to be shown
+        //pos - position of the toaster
+        var toast = (type, message, pos) => {
+            alert(message);
+        }
+
         //get data of a current chatter
 
         function fillProfile() {

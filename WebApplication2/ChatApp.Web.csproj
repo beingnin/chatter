@@ -449,6 +449,10 @@
     <Compile Include="Migrations\201808011821247_new column in server.Designer.cs">
       <DependentUpon>201808011821247_new column in server.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201808021739387_hello.cs" />
+    <Compile Include="Migrations\201808021739387_hello.Designer.cs">
+      <DependentUpon>201808021739387_hello.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Chat.cs" />
     <Compile Include="Models\Chatter.cs" />
@@ -464,6 +468,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201808011821247_new column in server.resx">
       <DependentUpon>201808011821247_new column in server.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808021739387_hello.resx">
+      <DependentUpon>201808021739387_hello.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
