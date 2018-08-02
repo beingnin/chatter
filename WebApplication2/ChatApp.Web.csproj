@@ -239,6 +239,8 @@
     <Content Include="App\Account\vendor\select2\select2.min.js" />
     <Content Include="App\Account\vendor\tilt\tilt.jquery.min.js" />
     <Content Include="App\Account\Verify.aspx" />
+    <Content Include="Email Templates\forgetpassword.html" />
+    <Content Include="Email Templates\invitation.html" />
     <Content Include="Email Templates\confirmation.html" />
     <Content Include="App\index.html" />
     <Content Include="App\Messenger.aspx" />
@@ -443,9 +445,9 @@
     <Compile Include="Helper\Emailer.cs" />
     <Compile Include="Hubs\ActiveConnections.cs" />
     <Compile Include="Hubs\ChatHub.cs" />
-    <Compile Include="Migrations\201807311721157_dd.cs" />
-    <Compile Include="Migrations\201807311721157_dd.Designer.cs">
-      <DependentUpon>201807311721157_dd.cs</DependentUpon>
+    <Compile Include="Migrations\201808011821247_new column in server.cs" />
+    <Compile Include="Migrations\201808011821247_new column in server.Designer.cs">
+      <DependentUpon>201808011821247_new column in server.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201808021739387_hello.cs" />
     <Compile Include="Migrations\201808021739387_hello.Designer.cs">
@@ -464,8 +466,8 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201807311721157_dd.resx">
-      <DependentUpon>201807311721157_dd.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201808011821247_new column in server.resx">
+      <DependentUpon>201808011821247_new column in server.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201808021739387_hello.resx">
       <DependentUpon>201808021739387_hello.cs</DependentUpon>
