@@ -36,6 +36,16 @@ namespace WebApplication2.Controllers
         {
             return Request.CreateResponse(new Models.Chatter().ChangePassword(chatterId,newPwd,oldPwd));
         }
+        [HttpPost]
+        public HttpResponseMessage Invite([FromUri] string toemail,  [FromUri] long by)
+        {
+            return Request.CreateResponse(new Models.Chatter().Invite(toemail,by));
+        }
+        [HttpPost]
+        public HttpResponseMessage PasswordReset([FromUri]  string email)
+        {
+            return Request.CreateResponse(new Models.Chatter().ResetPassword(email));
+        }
 
     }
 }

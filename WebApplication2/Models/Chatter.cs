@@ -75,7 +75,7 @@ namespace WebApplication2.Models
                         string baseaddress = System.Configuration.ConfigurationManager.AppSettings["baseurl"];
                         string body = File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + @"\Email Templates\confirmation.html");
                         body = body.Replace("{^fullname^}", this.FirstName);
-                        body = body.Replace("{^confirmationlink^}",baseaddress+"App/Account/Verify?uid=" +this.VerificationCode.ToString());
+                        body = body.Replace("{^confirmationlink^}", baseaddress + "App/Account/Verify?uid=" + this.VerificationCode.ToString());
                         Helper.Emailer.SendAsync(this.Email, "Welcome to doKonnect", body);
 
 
@@ -102,7 +102,7 @@ namespace WebApplication2.Models
                     string hashedPassword = Helper.Cryptor.Hash(this.Password);
                     var user = db.Chatters.Where(x => x.Email == this.Email && x.HashedPasword == hashedPassword && x.IsVerified).FirstOrDefault();
                     db.Close();
-                    return user!=null;
+                    return user != null;
                 }
                 catch (Exception ex)
                 {
@@ -139,7 +139,7 @@ namespace WebApplication2.Models
                 try
                 {
                     Chatter user = db.Chatters.Find(id);
-                    return new Message<object>(true, "Successfully retrieved data", "Chatter > Get", new { Name = user.FirstName + " " + user.MiddleName + " " + user.LastName, Email = user.Email, ChatterId = user.ChatterId,user.FirstName,user.LastName,user.ProfileImagePath,JoinedOn=user.CreatedDate.ToString("dd MMM yyyy") });
+                    return new Message<object>(true, "Successfully retrieved data", "Chatter > Get", new { Name = user.FirstName + " " + user.MiddleName + " " + user.LastName, Email = user.Email, ChatterId = user.ChatterId, user.FirstName, user.LastName, user.ProfileImagePath, JoinedOn = user.CreatedDate.ToString("dd MMM yyyy") });
                 }
                 catch (Exception ex)
                 {
@@ -148,7 +148,7 @@ namespace WebApplication2.Models
             }
         }
 
-        public Message<object> ChangeProfilePic(long chatterId,string b64)
+        public Message<object> ChangeProfilePic(long chatterId, string b64)
         {
             try
             {
@@ -159,8 +159,8 @@ namespace WebApplication2.Models
                     Directory.CreateDirectory(dir);
                 }
                 string file = Guid.NewGuid().ToString() + ".jpg";
-                File.WriteAllBytes(Path.Combine(dir,file), bytes);
-                using (Data db=new Data())
+                File.WriteAllBytes(Path.Combine(dir, file), bytes);
+                using (Data db = new Data())
                 {
                     var chatter = db.Chatters.Find(chatterId);
                     if (chatter == null)
@@ -179,7 +179,7 @@ namespace WebApplication2.Models
                 return new Message<object>(false, "Something went wrong. Try again", "Chatter > UpdateProfilePic", ex);
             }
         }
-        public Message<object> ChangeName(long chatterId, string fName,string lName)
+        public Message<object> ChangeName(long chatterId, string fName, string lName)
         {
             try
             {
@@ -214,7 +214,7 @@ namespace WebApplication2.Models
                     {
                         return new Message<object>(false, "You are not a valid chatter. Register with us");
                     }
-                    if(chatter.HashedPasword!= Helper.Cryptor.Hash(passwordOld))
+                    if (chatter.HashedPasword != Helper.Cryptor.Hash(passwordOld))
                     {
                         return new Message<object>(false, "Your old password is wrong. Try again");
                     }
@@ -232,6 +232,72 @@ namespace WebApplication2.Models
             catch (Exception ex)
             {
                 return new Message<object>(false, "Something went wrong. Try again", "Chatter > ChangePassword", ex);
+            }
+        }
+
+        public Message<object> Invite(string to, long by)
+        {
+            try
+            {
+                using (Data db = new Data())
+                {
+                    var chatter = db.Chatters.Find(by);
+                    if (chatter != null)
+                    {
+                        //Sending Email
+                        string baseaddress = System.Configuration.ConfigurationManager.AppSettings["baseurl"];
+                        string body = File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + @"\Email Templates\invitation.html");
+                        body = body.Replace("{^fullname^}", chatter.FullName);
+                        body = body.Replace("{^link^}", baseaddress + "App/Account/Signin");
+                        Helper.Emailer.SendAsync(to, "Welcome to doKonnect", body);
+                        return new Message<object>(true, "Invitation sent", "Chatter > Invite", null);
+                    }
+                    return new Message<object>(false, "Invalid user", "Chatter > Invite", null);
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+                return new Message<object>(false, "Something went wrong", "Chatter > Invite", ex);
+            }
+        }
+        public Message<object> ResetPassword(string email)
+        {
+            try
+            {
+                using (Data db = new Data())
+                {
+                    var chatter = db.Chatters.Where(x=>x.Email==email).FirstOrDefault();
+                    if (chatter != null)
+                    {
+                        string newpassword = new Random().Next(111111, 999999).ToString();
+                        //Sending Email
+                        string baseaddress = System.Configuration.ConfigurationManager.AppSettings["baseurl"];
+                        string body = File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + @"\Email Templates\forgetpassword.html");
+                        body = body.Replace("{^fullname^}", chatter.FullName);
+                        body = body.Replace("{^link^}", baseaddress + "App/Account/Signin");
+                        body = body.Replace("{^password^}", newpassword);
+
+                        bool mailsent = Helper.Emailer.Send(chatter.Email, "Password Reset", body);
+                        if (mailsent)
+                        {
+                            chatter.HashedPasword = Helper.Cryptor.Hash(newpassword);
+                            db.Entry(chatter).State = System.Data.Entity.EntityState.Modified;
+                            db.SaveChanges();
+                            return new Message<object>(true, "Password reset. Check your email", "Chatter > ResetPassword", null);
+                        }
+                    }
+                    return new Message<object>(false, "You are not yet registered. Create an account first", "Chatter > ResetPassword", null);
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+                return new Message<object>(false, "Something went wrong", "Chatter > Invite", ex);
             }
         }
 

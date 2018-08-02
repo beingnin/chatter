@@ -60,7 +60,7 @@
                     <div class="text-center p-t-12">
                         <span class="txt1">Forgot
                         </span>
-                        <a class="txt2" href="#">Username / Password?
+                        <a class="txt2" id="btnForgetPassword" href="#">Username / Password?
                         </a>
                     </div>
 
@@ -158,6 +158,33 @@
                 $('#frmLogin').fadeIn(100);
 
             });
+        });
+
+        $('#btnForgetPassword').click(function () {
+            if (!$('#txtEmailSI').val()) {
+                alert('Provide email');
+                return;
+            }
+            if (confirm("Your password will be reset. Are you sure?"))
+            {
+                $.ajax({
+                    url: '/api/account/PasswordReset?email=' + $('#txtEmailSI').val(),
+                    method: 'POST',
+                    contentType: 'application/json;charset=utf-8',
+                    dataType: 'JSON',
+                    success: function (d) {
+                        console.log(d)
+                        if (d.Success) {
+                            alert(d.Response);
+                        }
+                        else {
+                            alert(d.Response);
+                        }
+                    }
+
+                })
+            }
+            
         });
 
         $('#btnRegister').click(function () {
