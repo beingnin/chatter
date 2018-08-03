@@ -504,7 +504,7 @@ div.message.right .corner {
 
         #sendmessage button:hover {
             cursor: pointer;
-            background-position: 0 0;
+            /*background-position: 0 0;*/
         }
 
         #sendmessage button:focus {

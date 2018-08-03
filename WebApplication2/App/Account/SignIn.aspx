@@ -34,8 +34,8 @@
 
                 <form id="frmLogin" runat="server" class="login100-form validate-form">
                     <div class="logo"><img src="../Theme/Images/doKonnect.png" height="70"/></div>
-                    <span class="login100-form-title">Member Login
-                    </span>
+                   <%-- <span class="login100-form-title">Member Login
+                    </span>--%>
 
                     <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
                         <asp:TextBox runat="server" ID="txtEmailSI" autocomplete="off" placeholder="Email" class="input100" />
@@ -190,11 +190,14 @@
         });
 
         $('#btnRegister').click(function () {
-
             var user = {};
             user.Email = $('#txtEmailSu').val();
             user.FirstName = $('#txtFirstNameSU').val();
             user.Password = $('#txtPassword2SU').val();
+            if (user.Password !== $('#txtPassword1SU').val()) {
+                alert('Your passwords doesn\'t match. Try again');
+                return;
+            }
             $.ajax({
                 url: '/api/account/register',
                 method: 'POST',

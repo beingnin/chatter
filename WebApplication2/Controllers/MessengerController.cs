@@ -34,7 +34,7 @@ namespace WebApplication2.Controllers
                     foreach (var con in Hubs.Connections.GetConnections(chat.ToId))
                     {
 
-                        hubcontext.Clients.Client(con).newMessage(sender.FromId, sender.Message, sender.From.ProfileImagePath);
+                        hubcontext.Clients.Client(con).newMessage(sender.FromId, sender.Message, sender.From.ProfileImagePath,sender.RelativeTime);
                     }
 
                 };
