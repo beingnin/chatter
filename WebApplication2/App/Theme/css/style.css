@@ -742,6 +742,6 @@ div.message.right .corner {
     #chatbox {
         width: 100vw;
         top: 0;
-        height: 100vh;
+        height: 100%;
     }
 }
