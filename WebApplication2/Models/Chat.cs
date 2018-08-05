@@ -22,6 +22,18 @@ namespace WebApplication2.Models
 
         [Required]
         public DateTime SentTime { get; set; }
+        [NotMapped]
+        public string RelativeTime
+        {
+            get
+            {
+
+                return this.SentTime.ToString("MMM dd");
+
+            }
+
+        }
+
 
         [Required]
         public bool IsSentToGroup { get; set; }
@@ -71,7 +83,7 @@ chat.SentTime descending
                                            x.FirstName,
                                            x.Email,
                                            x.ProfileImagePath,
-                                           Unread = db.Chats.Count(y => !y.IsRead && y.FromId == x.ChatterId && y.ToId==me)
+                                           Unread = db.Chats.Count(y => !y.IsRead && y.FromId == x.ChatterId && y.ToId == me)
                                        }).ToList();
                     return new Message<object>(true, "Data retrieved successfully", "Chat > MyChatList", chatList);
 
@@ -121,14 +133,14 @@ chat.SentTime descending
             {
                 try
                 {
-                    var chats = db.Chats.Where(x => (x.From.ChatterId == you && x.To.ChatterId == me && x.IsRead==false) && !x.IsDeleted).ToList();
+                    var chats = db.Chats.Where(x => (x.From.ChatterId == you && x.To.ChatterId == me && x.IsRead == false) && !x.IsDeleted).ToList();
                     chats.ForEach(x =>
                     {
                         x.IsRead = true;
                         db.Chats.Add(x);
                         db.Entry(x).State = System.Data.Entity.EntityState.Modified;
                     });
-                    
+
                     db.SaveChanges();
                     return new Message<object>(true, "Marked as unread", "Chat > MarkAsRead", null);
                 }

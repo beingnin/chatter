@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="Theme/css/style.css?v=310718" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css' />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
 </head>
 <body style="background: #d6d9dc">
     <%--<form id="form1" runat="server">--%>
@@ -46,11 +46,11 @@
                 <div id="profile">
 
                     <div id="close">
-                        <img src="Theme/Images/back.png" width="20"/>
+                        <img src="Theme/Images/back.png" width="20" />
                     </div>
 
                     <div id="more">
-                        <img src="Theme/Images/more.png" width="20"/>
+                        <img src="Theme/Images/more.png" width="20" />
                     </div>
 
                     <p id="chatName">--Chatter--</p>
@@ -79,20 +79,22 @@
                 <div class="sett-username">
                     <h4 class="sett-title--sub">Name
                         <button type="button" id="btnUpdateName">
-                            <img src="Theme/Images/save.png" height="12"/>&nbsp;Update</button></h4>
+                            <img src="Theme/Images/save.png" height="12" />&nbsp;Update</button></h4>
                     <input type="text" id="txtfName" class="input" placeholder="First Name" />
                     <input type="text" id="txtlName" class="input" placeholder="Last Name" />
                 </div>
                 <div class="sett-password">
                     <h4 class="sett-title--sub">Change Password
-                        <button type="button" id="btnUpdatePwd"><img src="Theme/Images/save.png" height="12"/>&nbsp;Update</button></h4>
+                        <button type="button" id="btnUpdatePwd">
+                            <img src="Theme/Images/save.png" height="12" />&nbsp;Update</button></h4>
                     <input type="password" id="txtOldPwd" class="input" placeholder="old password" />
                     <input type="password" class="input" id="txtNewPwd1" placeholder="new password" />
                     <input type="password" class="input" id="txtNewPwd2" placeholder="confirm password" />
 
                 </div>
                 <a href="/App/Account/Logout" id="logout">Logout</a>
-                <div class="sett-logo"><img src="Theme/Images/doKonnect.png" height="35"/></div>
+                <div class="sett-logo">
+                    <img src="Theme/Images/doKonnect.png" height="35" /></div>
             </div>
 
             <img id="chatterImage" src="Theme/Images/Defaults/profile_default.jpg" class="floatingImg" style="display: none" />
@@ -208,7 +210,7 @@
                 success: function (data) {
                     console.log(data);
                     if (data.Success) {
-                        var html = '<div class="message"><img src="' + data.Data.From.ProfileImagePath + '" /><div class="bubble">' + message.Message + '<div class="corner"></div><span>5 min</span></div></div>';
+                        var html = '<div class="message"><img src="' + data.Data.From.ProfileImagePath + '" /><div class="bubble">' + message.Message + '<div class="corner"></div><span>' + data.Data.RelativeTime + '</span></div></div>';
                         $('#chat-messages').append(html);
                         scrollDown();
                         $('#message').val('');
@@ -235,10 +237,10 @@
                             for (var i = 0; i < chats.Data.length; i++) {
                                 var chat = chats.Data[i];
                                 if (chat.FromId == me) {
-                                    html += '<div class="message"><img src="' + chat.From.ProfileImagePath + '" /><div class="bubble">' + chat.Message + '<div class="corner"></div><span>3 min</span></div></div>';
+                                    html += '<div class="message"><img src="' + chat.From.ProfileImagePath + '" /><div class="bubble">' + chat.Message + '<div class="corner"></div><span>' + chat.RelativeTime + '</span></div></div>';
                                 }
                                 else {
-                                    html += '<div class="message right"><img src="' + chat.From.ProfileImagePath + '" /><div class="bubble">' + chat.Message + '<div class="corner"></div><span>3 min</span></div></div>';
+                                    html += '<div class="message right"><img src="' + chat.From.ProfileImagePath + '" /><div class="bubble">' + chat.Message + '<div class="corner"></div><span>' + chat.RelativeTime + '</span></div></div>';
                                 }
 
                             }
@@ -346,6 +348,56 @@
             });
         }
 
+        function searchEmail(email) {
+            if (email.match(/@/g) == null) {
+                alert("Provide a valid email address and try.");
+                return;
+            }
+
+            $.ajax({
+                url: '/api/account/get?email=' + email,
+                dataType: 'JSON',
+                method: 'GET',
+                success: function (data) {
+                    console.log(data);
+                    if (data.Success) {
+                        if (data.Data != null) {
+                            var me = $.cookie('ch_us_id');
+                            var you = data.Data.ChatterId;
+                            showChat(data.Data.Name, data.Data.Email, you, me);
+                            $('#searchfield').val('');
+                        }
+
+                    }
+                    else {
+                        $('#searchfield').val('');
+                        if (confirm("This user is not yet registered with us. Send an invitation?")) {
+                            $.ajax({
+                                url: '/api/account/invite?toemail=' + email + '&by=' + $.cookie('ch_us_id'),
+                                method: 'POST',
+                                contentType: 'application/json;charset=utf-8',
+                                dataType: 'JSON',
+
+                                success: function (d) {
+                                    if (d.Success) {
+                                        alert(d.Response);
+                                    }
+                                    else {
+                                        alert(d.Response);
+                                    }
+                                }
+
+
+                            })
+                        }
+                    }
+                },
+                error: function (xhr) {
+                    console.log(xhr);
+                }
+            });
+        }
+
         //hub init
         var chatcon = $.connection.chathub;
 
@@ -367,10 +419,10 @@
 
             console.log(chatcon);
 
-            chatcon.client.newMessage = function (you, message, youProfileImage) {
+            chatcon.client.newMessage = function (you, message, youProfileImage, date) {
                 var current_you_id = $('#chat-messages').attr('data-you-id');
                 if (current_you_id == you) {
-                    var html = '<div class="message right"><img src="' + youProfileImage + '" /><div class="bubble">' + message + '<div class="corner"></div><span>3 min</span></div></div>';
+                    var html = '<div class="message right"><img src="' + youProfileImage + '" /><div class="bubble">' + message + '<div class="corner"></div><span>' + date + '</span></div></div>';
                     $('#chat-messages').append(html);
                     scrollDown();
                     RefreshChatList($.cookie('ch_us_id'));
@@ -411,25 +463,7 @@
                 e.preventDefault();
                 var email = $(this).val();
                 if (e.which == 13 || e.keyCode == 13) {
-                    $.ajax({
-                        url: '/api/account/get?email=' + email,
-                        dataType: 'JSON',
-                        method: 'GET',
-                        success: function (data) {
-                            console.log(data);
-                            if (data.Success) {
-                                if (data.Data != null) {
-                                    var me = $.cookie('ch_us_id');
-                                    var you = data.Data.ChatterId;
-                                    showChat(data.Data.Name, data.Data.Email, you, me);
-                                    $('#searchfield').val('');
-                                }
-                            }
-                        },
-                        error: function (xhr) {
-                            console.log(xhr);
-                        }
-                    });
+                    searchEmail(email);
                 }
             });
 

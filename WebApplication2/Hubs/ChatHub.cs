@@ -10,9 +10,9 @@ namespace WebApplication2.Hubs
     [HubName("chathub")]
     public class ChatHub : Hub
     {
-        public void send(int you, string message, string youProfileImage)
+        public void send(int you, string message, string youProfileImage,string date)
         {
-            Clients.All.newMessage(you, message, youProfileImage);
+            Clients.All.newMessage(you, message, youProfileImage,date);
 
         }
         public override Task OnConnected()
