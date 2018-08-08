@@ -22,6 +22,8 @@
     <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="css/util.css" />
     <link rel="stylesheet" type="text/css" href="css/main.css" />
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
 </head>
 <body>
 
@@ -33,8 +35,10 @@
                 </div>
 
                 <form id="frmLogin" runat="server" class="login100-form validate-form">
-                    <div class="logo"><img src="../Theme/Images/doKonnect.png" height="70"/></div>
-                   <%-- <span class="login100-form-title">Member Login
+                    <div class="logo">
+                        <img src="../Theme/Images/doKonnect.png" height="70" />
+                    </div>
+                    <%-- <span class="login100-form-title">Member Login
                     </span>--%>
 
                     <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
@@ -53,7 +57,12 @@
                             <i class="fa fa-lock" aria-hidden="true"></i>
                         </span>
                     </div>
-
+                    
+                    <div runat="server" id="loginErrror" visible="false"  class="text-center p-t-12">
+                        <span class="txt1" style="color:red"><i class="fa fa-warning"></i> Username or password not correct. Try again
+                        </span>
+                        
+                    </div>
                     <div class="container-login100-form-btn">
                         <asp:Button ID="btnLogin" CssClass="login100-form-btn" runat="server" Text="Login" OnClick="btnLogin_Click" />
                     </div>
@@ -75,7 +84,9 @@
 
                 <%--//Register--%>
                 <div id="frmRegister" style="display: none" runat="server" class="login100-form ">
-                    <div class="logo"><img src="../Theme/Images/doKonnect.png" height="70"/></div>
+                    <div class="logo">
+                        <img src="../Theme/Images/doKonnect.png" height="70" />
+                    </div>
                     <span class="login100-form-title">Create Account
                     </span>
                     <div class="wrap-input100" data-validate="First name is required">
@@ -143,6 +154,8 @@
     <script src="vendor/select2/select2.min.js"></script>
     <!--===============================================================================================-->
     <script src="vendor/tilt/tilt.jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="../Theme/js/app.js"></script>
     <script>
         $('.js-tilt').tilt({
             scale: 1.1
@@ -164,11 +177,10 @@
 
         $('#btnForgetPassword').click(function () {
             if (!$('#txtEmailSI').val()) {
-                alert('Provide email');
+                toast('error', 'Provide a valid email address');
                 return;
             }
-            if (confirm("Your password will be reset. Are you sure?"))
-            {
+            if (confirm("Your password will be reset. Are you sure?")) {
                 $.ajax({
                     url: '/api/account/PasswordReset?email=' + $('#txtEmailSI').val(),
                     method: 'POST',
@@ -177,16 +189,16 @@
                     success: function (d) {
                         console.log(d)
                         if (d.Success) {
-                            alert(d.Response);
+                            toast('error', d.Response);
                         }
                         else {
-                            alert(d.Response);
+                            toast('error', d.Response);
                         }
                     }
 
                 })
             }
-            
+
         });
 
         $('#btnRegister').click(function () {
@@ -195,7 +207,7 @@
             user.FirstName = $('#txtFirstNameSU').val();
             user.Password = $('#txtPassword2SU').val();
             if (user.Password !== $('#txtPassword1SU').val()) {
-                alert('Your passwords doesn\'t match. Try again');
+                toast('error', 'Your passwords doesn\'t match. Try again');
                 return;
             }
             $.ajax({
@@ -213,9 +225,9 @@
                 success: function (data) {
                     console.log(data);
                     if (data.Success) {
-                        alert('Success');
+                        toast('error', 'A verification mail has been sent to your email address. Login to your email provider and verify');
                     } else {
-                        alert('Failed');
+                        toast('error', data.Response);
                     }
 
                 }

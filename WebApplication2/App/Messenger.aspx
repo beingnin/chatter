@@ -116,6 +116,7 @@
     <%--</form>--%>
     <%--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>--%>
     <script src="Theme/js/jquery.min.js"></script>
+    <script src="Theme/js/app.js"></script>
     <script src="/Scripts/jquery.signalR-2.2.2.min.js"></script>
     <script src="/signalr/hubs" type="text/javascript"></script>
     <script src="../Scripts/Cookies/jquery.cookie.js"></script>
@@ -134,30 +135,7 @@
         }
         $('#topmenu').children('a').click(function () { $(this).addClass('active') });
 
-        //Toaster function
-        //type - success, error, warning or info
-        //message - message to be shown
-        //pos - top or bottom
-        var toast = (type, message, pos) => {
-            toastr[type](message)
-            toastr.options = {
-                "closeButton": true,
-                "debug": false,
-                "newestOnTop": false,
-                "progressBar": false,
-                "positionClass": "toast-top-center",
-                "preventDuplicates": false,
-                "onclick": null,
-                "showDuration": "300",
-                "hideDuration": "1000",
-                "timeOut": "50000",
-                "extendedTimeOut": "1000",
-                "showEasing": "swing",
-                "hideEasing": "linear",
-                "showMethod": "fadeIn",
-                "hideMethod": "fadeOut"
-            }
-        }
+
 
         //get data of a current chatter
 
@@ -194,7 +172,7 @@
                     break;
                 }
             }
-            userExist ? alert('User Already Added to List') : $('.group-participants').append(`<li class="participant">${addUserInput.val()}</li>`);
+            userExist ? toast('error','User Already Added to List') : $('.group-participants').append(`<li class="participant">${addUserInput.val()}</li>`);
             addUserInput.val('');
         });
 
@@ -350,7 +328,8 @@
 
         function searchEmail(email) {
             if (email.match(/@/g) == null) {
-                alert("Provide a valid email address and try.");
+                
+                toast('error', "Provide a valid email address and try");
                 return;
             }
 
@@ -380,10 +359,10 @@
 
                                 success: function (d) {
                                     if (d.Success) {
-                                        alert(d.Response);
+                                        toast('error', d.Response);
                                     }
                                     else {
-                                        alert(d.Response);
+                                        toast('error', d.Response);
                                     }
                                 }
 
@@ -505,7 +484,7 @@
             $('#btnChangeProPic').change(function (e) {
 
                 if (e.target.files[0].size > 1048576) {
-                    alert('Please choose a file less than 1 Mb in size');
+                    toast('error', 'Please choose a file less than 1 Mb in size');
                     return;
                 }
                 var reader = new FileReader();
@@ -533,7 +512,7 @@
                 var fNAme = $('#txtfName').val();
                 var lNAme = $('#txtlName').val();
                 if (!fNAme) {
-                    alert('First name must not be empty');
+                    toast('error', 'First name must not be empty');
                     $('#txtOldPwd,#txtNewPwd1,#txtNewPwd2').val('');
                     return;
                 }
@@ -545,10 +524,10 @@
                     success: function (data) {
                         console.log(data);
                         if (data.Success) {
-                            alert(data.Response);
+                            toast('error', data.Response);
                         }
                         else {
-                            alert(data.Response);
+                            toast('error', data.Response);
                         }
                         $('#txtOldPwd,#txtNewPwd1,#txtNewPwd2').val('');
                     }
@@ -562,7 +541,7 @@
                 var new1 = $('#txtNewPwd1').val();
                 var new2 = $('#txtNewPwd2').val();
                 if (new1 !== new2) {
-                    alert('Your passwords do not match. Try again');
+                    toast('error', 'Your passwords do not match. Try again');
                     return;
                 }
                 $.ajax({
@@ -573,10 +552,10 @@
                     success: function (data) {
                         console.log(data);
                         if (data.Success) {
-                            alert(data.Response);
+                            toast('error', data.Response);
                         }
                         else {
-                            alert(data.Response);
+                            toast('error', data.Response);
                         }
                     }
                 })
