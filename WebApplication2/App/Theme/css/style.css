@@ -312,6 +312,19 @@ width: 48% !important;
     text-align: center;
     line-height: 50px;
 }
+#addGroup {
+    position: absolute;
+    bottom: 10px;
+    right: 18px;
+    z-index: 9999;
+    background-color: hsl(204, 22%, 87%);
+    height: 40px;
+    width: 40px;
+    border-radius: 20px;
+    text-align: center;
+    line-height: 50px;
+}
+
 
 #chatview {
     width: 100%;

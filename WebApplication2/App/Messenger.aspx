@@ -12,13 +12,17 @@
 </head>
 <body style="background: #d6d9dc">
     <%--<form id="form1" runat="server">--%>
+    <%--hidden fields--%>
+    <a href="#" style="display: none" id="openCreateGroup" data-modal="createGroupModal" data-modal-title="Create new group"></a>
+
     <div class="chatter-wrap">
         <div id="chatbox">
             <div id="topmenu">
                 <a class="menu active" href="#" onclick="switchTab('friendslist')">
                     <img src="Theme/Images/chat.png " />
                 </a>
-                <a class="menu" href="#" onclick="switchTab('createGroupTab')">
+
+                <a class="menu" href="#" onclick="switchTab('GroupTab')">
                     <img src="Theme/Images/chat-list.png" />
                 </a>
                 <a class="menu" href="#" onclick="switchTab('chatSettings')">
@@ -94,22 +98,45 @@
                 </div>
                 <a href="/App/Account/Logout" id="logout">Logout</a>
                 <div class="sett-logo">
-                    <img src="Theme/Images/doKonnect.png" height="35" /></div>
+                    <img src="Theme/Images/doKonnect.png" height="35" />
+                </div>
             </div>
 
             <img id="chatterImage" src="Theme/Images/Defaults/profile_default.jpg" class="floatingImg" style="display: none" />
 
-            <div id="createGroupTab" class="tab-content" style="display: none">
-                <div class="group-title">
+            <div id="GroupTab" class="tab-content" style="display: none">
+                <div id="groups">
+                    <%--<div id="search">
+                        <input type="text" autocomplete="off" id="searchfield" placeholder="Search by email address" />
+                    </div>--%>
+                    <div id="groupChat"></div>
+                    <div id="addGroup">
+                        <a href="#">
+                            <img src="Theme/Images/add-user.png" height="20" />
+                        </a>
+                    </div>
+                </div>
+
+                <%--<div class="group-title">
                     <input type="text" class="group-email-input" placeholder="Type group name here..." />
                 </div>
                 <input id="groupEmailInput" type="email" class="group-email-input" placeholder="add participants email id here..." />
                 <button type="button" id="addGroupEmail" class="group-email-add">+</button>
                 <ul class="group-participants"></ul>
-                <button class="create-group">Create Group</button>
+                <button class="create-group">Create Group</button>--%>
             </div>
 
 
+
+            <div id="createGroupModal" data-group-id="0" class="modal">
+                <div class="group-title">
+                    <input type="text" id="txtGroupName" class="group-email-input" placeholder="Type group name here..." />
+                </div>
+                <input id="groupEmailInput" type="email" class="group-email-input" placeholder="add participants email id here..." />
+                <button type="button" id="addGroupEmail" class="group-email-add">+</button>
+                <ul class="group-participants"></ul>
+                <button type="button" id="btnCreateNewGroup" class="create-group">Create Group</button>
+            </div>
 
         </div>
     </div>
@@ -172,7 +199,7 @@
                     break;
                 }
             }
-            userExist ? toast('error','User Already Added to List') : $('.group-participants').append(`<li class="participant">${addUserInput.val()}</li>`);
+            userExist ? toast('error', 'User Already Added to List') : $('.group-participants').append(`<li class="participant">${addUserInput.val()}</li>`);
             addUserInput.val('');
         });
 
@@ -279,6 +306,13 @@
             });
         }
 
+        //REset participants modal
+        function resetParticipants() {
+            $('.group-participants').children('li.participant').remove();;
+            $('#createGroupModal').attr('data-group-id','0');
+            $('#txtGroupName').val('');;
+        }
+
         //scroll down logiv
         function scrollDown() {
             $('#chat-messages').scrollTop($('#chat-messages')[0].scrollHeight);
@@ -328,7 +362,7 @@
 
         function searchEmail(email) {
             if (email.match(/@/g) == null) {
-                
+
                 toast('error', "Provide a valid email address and try");
                 return;
             }
@@ -381,6 +415,46 @@
         var chatcon = $.connection.chathub;
 
         $(document).ready(function () {
+
+            //Create new group
+
+            $('#addGroup').click(function () { $('#openCreateGroup').trigger('click'); });
+
+            $('#btnCreateNewGroup').click(function () {
+                var group = {};
+                var emaillist = $('.group-participants').children('li.participant');
+                group.GroupId = $('#createGroupModal').attr('data-group-id');
+                group.Name =    $('#txtGroupName').val();;
+                group.Participants = [];
+                for (var i = 0; i < emaillist.length; i++) {
+                    group.Participants.push({ Email: $(emaillist[i]).html() });
+                }
+                if (!group.Name) {
+                    toast('error', 'Provide a valid group name');
+                }
+                if (group.Participants.length < 2) {
+                    toast('error', 'Add atleast two participants');
+                }
+
+                $.ajax({
+                    url: '/api/messenger/SaveorUpdateGroup',
+                    method:'POST',
+                    contentType: 'application/json;charset=utf-8',
+                    dataType: 'JSON',
+                    data: JSON.stringify(group),
+                    success: function (data) {
+                        if (data.Success) {
+                            resetParticipants();
+                            $('.chatter-modal-close').trigger('click');
+                            toast('success', data.Response);
+                        }
+                        else {
+                            toast('error', data.Response);
+                        }
+                    }
+                });
+
+            });
 
             // CHATTER MODAL START FUNCTION
             $('[data-modal]').click(function () {

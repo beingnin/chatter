@@ -13,6 +13,9 @@ namespace WebApplication2.Models
         }
         public DbSet<Chatter> Chatters { get; set; }
         public DbSet<Chat> Chats { get; set; }
+        public DbSet<GroupChat> GroupChats { get; set; }
+        public DbSet<Group> Groups { get; set; }
+        public DbSet<Participant> Participants { get; set; }
         public void Initialise()
         {
             Database.SetInitializer<Data>(new CreateDatabaseIfNotExists<Data>());

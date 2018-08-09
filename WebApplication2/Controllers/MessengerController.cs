@@ -34,7 +34,7 @@ namespace WebApplication2.Controllers
                     foreach (var con in Hubs.Connections.GetConnections(chat.ToId))
                     {
 
-                        hubcontext.Clients.Client(con).newMessage(sender.FromId, sender.Message, sender.From.ProfileImagePath,sender.RelativeTime);
+                        hubcontext.Clients.Client(con).newMessage(sender.FromId, sender.Message, sender.From.ProfileImagePath, sender.RelativeTime);
                     }
 
                 };
@@ -50,7 +50,27 @@ namespace WebApplication2.Controllers
         public HttpResponseMessage GetConnections(long id)
         {
             var cons = Hubs.Connections.GetConnections(id);
-            return Request.CreateResponse<List<string>>(HttpStatusCode.OK,cons);
+            return Request.CreateResponse<List<string>>(HttpStatusCode.OK, cons);
         }
+        [HttpPost]
+        public HttpResponseMessage SaveorUpdateGroup([FromBody] Models.Group group)
+        {
+            if (group.GroupId == 0)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, group.Create());
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, group.Update());
+            }
+
+
+        }
+        [HttpPost]
+        public HttpResponseMessage DeleteGroup([FromUri] long groupId)
+        {
+            return Request.CreateResponse(HttpStatusCode.OK, Models.Group.Delete(groupId));
+        }
+
     }
 }

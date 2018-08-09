@@ -453,33 +453,20 @@
     <Compile Include="Helper\Emailer.cs" />
     <Compile Include="Hubs\ActiveConnections.cs" />
     <Compile Include="Hubs\ChatHub.cs" />
-    <Compile Include="Migrations\201808011821247_new column in server.cs" />
-    <Compile Include="Migrations\201808011821247_new column in server.Designer.cs">
-      <DependentUpon>201808011821247_new column in server.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201808021739387_hello.cs" />
-    <Compile Include="Migrations\201808021739387_hello.Designer.cs">
-      <DependentUpon>201808021739387_hello.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\GroupChat.cs" />
     <Compile Include="Models\Chat.cs" />
     <Compile Include="Models\Chatter.cs" />
     <Compile Include="Models\Data.cs" />
+    <Compile Include="Models\Group.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Message.cs" />
+    <Compile Include="Models\Participant.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201808011821247_new column in server.resx">
-      <DependentUpon>201808011821247_new column in server.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201808021739387_hello.resx">
-      <DependentUpon>201808021739387_hello.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
