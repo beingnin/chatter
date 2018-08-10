@@ -70,6 +70,31 @@
 
             </div>
 
+            <div id="groupChatview" class="p1">
+                <div id="groupProfile">
+
+                    <div id="groupClose">
+                        <img src="Theme/Images/back.png" width="20" />
+                    </div>
+
+                    <div id="groupMore">
+                        <img src="Theme/Images/more.png" width="20" />
+                    </div>
+
+                    <p id="groupChatName">--Chatter--</p>
+                    <span id="groupChatDesc">--description--</span>
+                </div>
+                <div id="group-chat-messages">
+                </div>
+
+                <div id="groupSendmessage">
+                    <input id="groupMessage" autocomplete="off" type="text" placeholder="Type a message..." />
+                    <button type="button" id="groupSend"></button>
+                </div>
+
+            </div>
+
+
             <%-- SETTINGS PAGE --%>
             <div id="chatSettings" class="tab-content" style="display: none">
                 <h3 id="profileFullName" class="sett-title">Profile</h3>

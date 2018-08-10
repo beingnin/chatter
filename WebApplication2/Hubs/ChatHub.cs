@@ -15,6 +15,11 @@ namespace WebApplication2.Hubs
             Clients.All.newMessage(you, message, youProfileImage,date);
 
         }
+        public void sendToGroup(int groupid, string message, string youProfileImage, string date,string sender)
+        {
+            Clients.All.newGroupMessage(groupid, message, youProfileImage, date, sender);
+
+        }
         public override Task OnConnected()
         {
             Cookie user;

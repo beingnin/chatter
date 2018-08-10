@@ -42,58 +42,23 @@ namespace WebApplication2.Models
         public bool IsRead { get; set; }
 
 
-        public Message<List<Chat>> GetChats(long me, long you)
+        public static Message<List<GroupChat>> GetChats(long groupId)
         {
             using (Data db = new Data())
             {
                 try
                 {
-                    List<Chat> chats = db.Chats.Include("From").Include("To").Where(x => (x.From.ChatterId == me && x.To.ChatterId == you) || (x.From.ChatterId == you && x.To.ChatterId == me) && !x.IsDeleted).ToList();
-                    return new Message<List<Chat>>(true, "Chats retrieved successfully", "Chat > GetChats", chats);
+                    var chats = db.GroupChats.Include("From").Where(x => x.GroupId == groupId && !x.IsDeleted).ToList();
+                    return new Message<List<GroupChat>>(true, "Chats retrieved successfully", "GroupChat > GetChats", chats);
                 }
                 catch (Exception ex)
                 {
-                    return new Message<List<Chat>>(false, "Data retrieval failed", "Chat > GetChats", ex);
+                    return new Message<List<GroupChat>>(false, "Data retrieval failed", "GroupChat > GetChats", ex);
                 }
             }
         }
 
-        public Message<object> MyChatList(long me)
-        {
-            using (Data db = new Data())
-            {
-                try
-                {
-                    object chatList = (from chat in db.Chats
-                                       join
-                 chatter in db.Chatters on chat.FromId equals chatter.ChatterId
-                                       where chat.IsDeleted == false && chat.ToId == me
-                                       orderby chat.SentTime descending
-                                       select chatter).Union(
-                                       from chat in db.Chats
-                                       join
-                 chatter in db.Chatters on chat.ToId equals chatter.ChatterId
-                                       where chat.IsDeleted == false && chat.FromId == me
-                                       orderby
-chat.SentTime descending
-                                       select chatter).Select(x => new
-                                       {
-                                           x.ChatterId,
-                                           x.FirstName,
-                                           x.Email,
-                                           x.ProfileImagePath,
-                                           Unread = db.Chats.Count(y => !y.IsRead && y.FromId == x.ChatterId && y.ToId == me)
-                                       }).ToList();
-                    return new Message<object>(true, "Data retrieved successfully", "Chat > MyChatList", chatList);
 
-                }
-                catch (Exception ex)
-                {
-
-                    return new Message<object>(false, "Data retreival failed", "Chat > MyChatList", ex);
-                }
-            }
-        }
 
         public Message<object> Send()
         {
@@ -107,11 +72,11 @@ chat.SentTime descending
                     this.From = db.Chatters.Find(this.FromId);
                     this.Group = db.Groups.Find(this.GroupId);
                     AfterSave(this, new EventArgs());
-                    return new Message<object>(true, "Message sent successfully", "Chat > Send", this);
+                    return new Message<object>(true, "Message sent successfully", "GroupChat > Send", this);
                 }
                 catch (Exception ex)
                 {
-                    return new Message<object>(false, "Something went wrong", "Chat > Send", ex);
+                    return new Message<object>(false, "Something went wrong", "GroupChat > Send", ex);
                 }
             }
         }

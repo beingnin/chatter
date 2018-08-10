@@ -175,5 +175,21 @@ namespace WebApplication2.Models
                 throw;
             }
         }
+
+        public static Message<List<Participant>> GetParticipants(long groupId)
+        {
+            try
+            {
+                using (Data db = new Data())
+                {
+                    var parties = db.Participants.Where(x => x.GroupId == groupId).ToList();
+                    return new Message<List<Participant>>(true, "Data retrieved successfully", "Group > GetParticipants", parties);
+                }
+            }
+            catch (Exception ex)
+            {
+                return new Message<List<Participant>>(false, "Something went wrong", "Group > GetParticipants", ex);
+            }
+        }
     }
 }

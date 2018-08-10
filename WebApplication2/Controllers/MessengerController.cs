@@ -76,6 +76,42 @@ namespace WebApplication2.Controllers
         {
             return Request.CreateResponse(HttpStatusCode.OK, Models.Group.Get(me));
         }
+        [HttpGet]
+        public HttpResponseMessage GetGroupChat([FromUri] long groupid)
+        {
+            return Request.CreateResponse(HttpStatusCode.OK, Models.GroupChat.GetChats(groupid));
+        }
+        [HttpPost]
+        public HttpResponseMessage SendtoGroup([FromBody] Models.GroupChat chat)
+        {
+            if (chat != null)
+            {
+                chat.Save_Completed += (sender, e) =>
+                {
+                    IHubContext hubcontext = GlobalHost.ConnectionManager.GetHubContext<WebApplication2.Hubs.ChatHub>();
+                    var partyRequest = Models.Group.GetParticipants(sender.GroupId);
+                    if (partyRequest.Success)
+                    {
+                        foreach (var party in partyRequest.Data)
+                        {
+                            foreach (var con in Hubs.Connections.GetConnections(party.ChatterId))
+                            {
+
+                                hubcontext.Clients.Client(con).newGroupMessage(sender.GroupId, sender.Message, sender.From.ProfileImagePath, sender.RelativeTime, sender.From.FirstName,sender.FromId);
+                            }
+                        }
+
+                    }
+
+
+                };
+                return Request.CreateResponse(HttpStatusCode.OK, chat.Send());
+            }
+            else
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Bad Request");
+            }
+        }
 
     }
 }
