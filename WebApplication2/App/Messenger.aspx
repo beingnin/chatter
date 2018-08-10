@@ -6,7 +6,7 @@
 <head runat="server">
     <title>Messenger</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="Theme/css/style.css?v=310718" />
+    <link rel="stylesheet" href="Theme/css/style.css?v=100818" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css' />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
 </head>
@@ -173,6 +173,6 @@
     <script src="/signalr/hubs" type="text/javascript"></script>
     <script src="../Scripts/Cookies/jquery.cookie.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-    <script src="Theme/js/messenger.js"></script>
+    <script src="Theme/js/messenger.js?v=100818"></script>
 </body>
 </html>
