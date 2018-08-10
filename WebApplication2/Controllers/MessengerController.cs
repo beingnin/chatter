@@ -71,6 +71,11 @@ namespace WebApplication2.Controllers
         {
             return Request.CreateResponse(HttpStatusCode.OK, Models.Group.Delete(groupId));
         }
+        [HttpGet]
+        public HttpResponseMessage GetGroups([FromUri] long me)
+        {
+            return Request.CreateResponse(HttpStatusCode.OK, Models.Group.Get(me));
+        }
 
     }
 }

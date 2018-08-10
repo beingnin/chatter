@@ -247,6 +247,7 @@
     <Content Include="App\Theme\Images\save.png" />
     <Content Include="App\Theme\Images\search.png" />
     <Content Include="App\Theme\Images\send-button.png" />
+    <Content Include="App\Theme\js\messenger.js" />
     <Content Include="Email Templates\forgetpassword.html" />
     <Content Include="Email Templates\invitation.html" />
     <Content Include="Email Templates\confirmation.html" />

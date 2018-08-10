@@ -47,11 +47,11 @@ body {
     height: 100%;
 }
 
-#friends {
+#friends , #groups {
     height: calc(100% - 60px);
 }
 
-#friendslist {
+#friendslist , #GroupTab {
     position: absolute;
     top: 66.6px;
     left: 0;
@@ -192,7 +192,7 @@ width: 48% !important;
 #topmenu span.chats:hover{background-position:-95px -46px; cursor:pointer;}
 #topmenu span.history{background-position:-190px 24px; cursor:pointer;}
 #topmenu span.history:hover{background-position:-190px -47px; cursor:pointer;}*/
-.chat {
+.chat , .group-chat {
     height: 70px;
     border-bottom: 1px solid #e7ebee;
     position: relative;
@@ -200,6 +200,10 @@ width: 48% !important;
 }
 
     .chat:hover {
+        background: #f1f4f6;
+        cursor: pointer;
+    }
+        .group-chat:hover {
         background: #f1f4f6;
         cursor: pointer;
     }
@@ -212,7 +216,15 @@ width: 48% !important;
         float: left;
     }
 
-#friendsChat {
+        .group-chat img {
+        position:absolute;
+        width: 40px;
+        border-radius: 50%;
+        margin: 15px;
+        float: left;
+    }
+
+#friendsChat , #groupChat {
     height: 100%;
     overflow-x: hidden;
     overflow-y: scroll;
@@ -272,6 +284,52 @@ width: 48% !important;
     }
 
     .chat .status.inactive {
+        background: #eaeef0;
+    }
+
+    
+    .group-chat p {
+    padding: 15px 0 0 0;
+    margin-left:70px;
+    float: left;
+    width: 220px;
+    display: flex;
+    /*align-items: flex-end;*/
+    flex-direction: column;
+    /* flex-basis: 11px; */
+    flex-wrap: wrap-reverse;
+}
+
+    .group-chat p strong {
+        font-weight: 600;
+        font-size: 15px;
+        color: #597a96;
+    }
+
+    .group-chat p span {
+        font-size: 13px;
+        font-weight: 400;
+        color: #aab8c2;
+    }
+
+.group-chat .status {
+    background: #26c281;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    line-height: 1.6;
+    position: absolute;
+    top: 30px;
+    right: 17px;
+    text-align: center;
+    color: #fff;
+}
+
+    .group-chat .status.away {
+        background: #ffce54;
+    }
+
+    .group-chat .status.inactive {
         background: #eaeef0;
     }
 
