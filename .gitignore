@@ -287,3 +287,4 @@ __pycache__/
 *.odx.cs
 *.xsd.cs
 /WebApplication2/Resources/ProfilePics
+/WebApplication2/Migrations
